@@ -13,17 +13,20 @@ Sistema interno de gestão comercial com módulos de orçamentos, contratos, cli
 | APIs | BrasilAPI · ViaCEP · Autentique · Nodemailer · CallMeBot |
 
 ## 📁 Estrutura
+
+```
 ├── frontend/
 │   ├── index.html      # Entrada da aplicação
 │   ├── index.js        # Lógica de UI e negócio
 │   ├── db.js           # Camada de dados (localStorage + auth)
 │   └── style.css       # Estilos
 └── backend/
-    ├── back.js         # Servidor Express (integração Autentique)
+    ├── back.js         # Servidor Express
     ├── package.json
     ├── .gitignore
-    └── .env.example    # Variáveis de ambiente necessárias
- 
+    └── .env.example
+```
+
 ## 🚀 Rodando localmente
 
 ### 💻 Frontend
