@@ -4,15 +4,13 @@ Sistema interno de gestão comercial com módulos de orçamentos, contratos, cli
 
 ## Tecnologias
 
-## Tecnologias
-
+| Camada | Tecnologia |
 |---|---|
 | Frontend | HTML + CSS + JavaScript |
-| Storage | `localStorage` |
 | Backend | Node.js + Express |
-| PDFs | jsPDF |
-| Gráficos | Chart.js |
-| APIs | BrasilAPI + ViaCEP + Autentique + Nodemailer + CallMeBot |
+| Storage | `localStorage` |
+| Bibliotecas | jsPDF · Chart.js |
+| APIs | BrasilAPI · ViaCEP · Autentique · Nodemailer · CallMeBot |
 
 ## Estrutura
 
