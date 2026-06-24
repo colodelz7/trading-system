@@ -1,8 +1,8 @@
-# Sistema Comercial - Colodel
+# 🗂️ Sistema Comercial - Colodel
 
 Sistema interno de gestão comercial com módulos de orçamentos, contratos, clientes, leads, diagnósticos e relatórios.
 
-## Tecnologias
+## 🛠️ Tecnologias
 
 | Camada | Tecnologia |
 |---|---|
@@ -12,25 +12,32 @@ Sistema interno de gestão comercial com módulos de orçamentos, contratos, cli
 | Bibliotecas | jsPDF · Chart.js |
 | APIs | BrasilAPI · ViaCEP · Autentique · Nodemailer · CallMeBot |
 
-## Estrutura
-
-```
+## 📁 Estrutura
 ├── frontend/
+
 │   ├── index.html      # Entrada da aplicação
+
 │   ├── index.js        # Lógica de UI e negócio
+
 │   ├── db.js           # Camada de dados (localStorage + auth)
+
 │   └── style.css       # Estilos
+
 │
+
 └── backend/
-    ├── back.js         # Servidor Express (integração Autentique)
-    ├── package.json
-    ├── .gitignore
-    └── .env.example    # Variáveis de ambiente necessárias
-```
 
-## Rodando localmente
+├── back.js         # Servidor Express (integração Autentique)
 
-### Frontend
+├── package.json
+
+├── .gitignore
+
+└── .env.example    # Variáveis de ambiente necessárias
+
+## 🚀 Rodando localmente
+
+### 💻 Frontend
 
 Basta abrir o `index.html` no navegador ou servir a pasta com qualquer servidor estático:
 
@@ -42,7 +49,7 @@ Acesse `http://localhost:3000`.
 
 **Login padrão:** `admin` / `colodel`
 
-### Backend (opcional)
+### ⚙️ Backend (opcional)
 
 Só é necessário se for usar assinatura digital via Autentique, recebimento de leads pelo formulário público, envio de notificações por e-mail e WhatsApp, ou recebimento de webhooks de assinatura.
 
@@ -52,4 +59,3 @@ npm install
 cp .env.example .env
 npm start
 ```
-
