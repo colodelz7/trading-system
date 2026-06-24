@@ -24,7 +24,7 @@ Sistema interno de gestão comercial com módulos de orçamentos, contratos, cli
     ├── back.js         # Servidor Express
     ├── package.json
     ├── .gitignore
-    └── .env.example
+    └── .env.example    # Variáveis de ambiente necessárias
 ```
 
 ## 🚀 Rodando localmente
