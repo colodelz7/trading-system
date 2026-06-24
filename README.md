@@ -14,27 +14,16 @@ Sistema interno de gestão comercial com módulos de orçamentos, contratos, cli
 
 ## 📁 Estrutura
 ├── frontend/
-
 │   ├── index.html      # Entrada da aplicação
-
 │   ├── index.js        # Lógica de UI e negócio
-
 │   ├── db.js           # Camada de dados (localStorage + auth)
-
 │   └── style.css       # Estilos
-
-│
-
 └── backend/
-
-├── back.js         # Servidor Express (integração Autentique)
-
-├── package.json
-
-├── .gitignore
-
-└── .env.example    # Variáveis de ambiente necessárias
-
+    ├── back.js         # Servidor Express (integração Autentique)
+    ├── package.json
+    ├── .gitignore
+    └── .env.example    # Variáveis de ambiente necessárias
+ 
 ## 🚀 Rodando localmente
 
 ### 💻 Frontend
