@@ -5,7 +5,6 @@ Sistema interno de gestão comercial com módulos de orçamentos, contratos, cli
 ## Tecnologias
 
 | | |
-|---|---|
 | Frontend | HTML + CSS + JavaScript |
 | Backend | Node.js + Express |
 | Storage | `localStorage` |
