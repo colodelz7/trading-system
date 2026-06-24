@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Sistema Comercial - Colodel</title>
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="screen-login" class="screen active">
+  <div class="login-bg"><div class="orb o1"></div><div class="orb o2"></div></div>
+  <div class="login-card">
+    <div class="brand lg"><span class="bt">Colodel</span></div>
+    <p class="login-sub">Sistema Comercial Interno</p>
+    <div class="field"><label>Usuário</label><input type="text" id="login-user" placeholder="Seu usuário" autocomplete="username"/></div>
+    <div class="field"><label>Senha</label><input type="password" id="login-pass" placeholder="Sua senha" autocomplete="current-password"/></div>
+    <div id="login-err" class="msg-err hidden">Usuário ou senha incorretos.</div>
+    <button id="btn-login" class="btn-p w100">Entrar</button>
+    <p class="login-hint">Acesso somente à equipe Colodel.</p>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="screen-dash" class="screen">
+  <aside class="sidebar">
+    <div class="sb-top"><div class="brand"><span class="bt">Colodel</span></div></div>
+    <nav id="sidebar-nav">
+      <button class="nb active" data-tab="overview"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>Visão Geral</span></button>
+      <button class="nb" data-tab="orcamentos"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg><span>Orçamentos</span></button>
+      <button class="nb" data-tab="contratos"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span>Contratos</span></button>
+      <button class="nb" data-tab="diagnostico"><svg viewBox="0 0 24 24"><path d="M9 11H5a2 2 0 0 0-2 2v7"/><path d="M9 3v18"/><circle cx="15" cy="8" r="3"/><path d="M21 20a6 6 0 0 0-12 0"/></svg><span>Diagnóstico</span></button>
+      <button class="nb" data-tab="funil"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="9.5" y="4" width="5" height="10" rx="1"/><rect x="16" y="4" width="5" height="13" rx="1"/></svg><span>Funil</span></button>
+      <button class="nb" data-tab="leadfunil"><svg viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg><span>Funil de Leads</span></button>
+      <button class="nb" data-tab="servicos"><svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg><span>Serviços</span></button>
+      <button class="nb" data-tab="clientes"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Clientes</span></button>
+      <button class="nb" data-tab="relatorios"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="6"/><rect x="12" y="7" width="3" height="10"/><rect x="17" y="13" width="3" height="4"/></svg><span>Relatórios</span></button>
+    </nav>
+    <div class="sb-foot"><button id="btn-theme" class="nb"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg><span id="theme-lbl">Tema claro</span></button><button id="btn-logout" class="nb logout"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span>Sair</span></button></div>
+  </aside>
+
+  <div class="dash-main">
+    <header class="dash-hdr">
+      <span id="dash-title" class="dash-title">Visão Geral</span>
+      <div class="hdr-actions">
+        <button id="btn-hdr-orc" class="btn-g">+ Orçamento</button>
+        <button id="btn-hdr-ct" class="btn-p">+ Contrato</button>
+      </div>
+    </header>
+
+    <!-- OVERVIEW -->
+    <div id="tab-overview" class="tab active">
+      <div class="ov-period-bar"><span class="ov-period-lbl">Período</span><button class="ovp active" data-ovp="all">Tudo</button><button class="ovp" data-ovp="1">Este mês</button><button class="ovp" data-ovp="3">3 meses</button><button class="ovp" data-ovp="6">6 meses</button><button class="ovp" data-ovp="12">12 meses</button></div>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-ic cyan"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div><p class="kpi-lbl">Total Orçamentos</p><p class="kpi-val" id="kpi-orc">0</p></div></div>
+        <div class="kpi"><div class="kpi-ic yellow"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div><p class="kpi-lbl">Orçamentos em Avaliação</p><p class="kpi-val" id="kpi-eval">0</p></div></div>
+        <div class="kpi"><div class="kpi-ic green"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div><p class="kpi-lbl">Orçamentos Aprovados</p><p class="kpi-val" id="kpi-approved">0</p></div></div>
+        <div class="kpi"><div class="kpi-ic orange"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/><line x1="4.5" y1="4.5" x2="19.5" y2="19.5"/></svg></div><div><p class="kpi-lbl">Orçamentos Vencidos</p><p class="kpi-val" id="kpi-venc">0</p></div></div>
+        <div class="kpi"><div class="kpi-ic red"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div><div><p class="kpi-lbl">Orçamentos Perdidos</p><p class="kpi-val" id="kpi-lost-orc">0</p></div></div>
+        <div class="kpi"><div class="kpi-ic cyan"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><div><p class="kpi-lbl">Total Contratos</p><p class="kpi-val" id="kpi-ct-total">0</p></div></div>
+        <div class="kpi"><div class="kpi-ic orange"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div><p class="kpi-lbl">Contratos Aguardando Assinatura</p><p class="kpi-val" id="kpi-wait">0</p></div></div>
+        <div class="kpi"><div class="kpi-ic green"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div><p class="kpi-lbl">Contratos Assinados</p><p class="kpi-val" id="kpi-signed">0</p></div></div>
+        <div class="kpi"><div class="kpi-ic red"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div><div><p class="kpi-lbl">Contratos Perdidos</p><p class="kpi-val" id="kpi-lost-ct">0</p></div></div>
+        <div class="kpi"><div class="kpi-ic violet"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><div><p class="kpi-lbl">Taxa de Conversão</p><p class="kpi-val" id="kpi-conv">0%</p></div></div>
+        <div class="kpi"><div class="kpi-ic cyan"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div><p class="kpi-lbl">Receita Mensal Prevista</p><p class="kpi-val" id="kpi-mrr">R$ 0,00</p></div></div>
+        <div class="kpi"><div class="kpi-ic cyan"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div><div><p class="kpi-lbl">Receita Pontual Prevista</p><p class="kpi-val" id="kpi-arr">R$ 0,00</p></div></div>
+      </div>
+      <div class="chart-section">
+        <div class="chart-header"><span class="sec-title" id="chart-title">Receita - Últimos 6 Meses</span><div class="chart-period-bar"><button class="cpb" data-period="1">Mensal</button><button class="cpb active" data-period="6">6 Meses</button><button class="cpb" data-period="12">12 Meses</button></div></div>
+        <div class="chart-wrap" id="revenue-chart"></div>
+      </div>
+      <p class="sec-title">Atividade Recente</p>
+      <div id="recent-list" class="clist"></div>
+    </div>
+
+    <!-- ORÇAMENTOS -->
+    <div id="tab-orcamentos" class="tab">
+      <div class="list-toolbar">
+        <div class="search-box"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="search-orc" placeholder="Buscar por nome ou nº (ex: 0150)..."/></div>
+        <div class="filter-bar">
+          <button class="fb active" data-f="all">Todos</button>
+          <button class="fb" data-f="Proposta em avaliação">Proposta em avaliação</button>
+          <button class="fb" data-f="Aprovado">Aprovado</button>
+          <button class="fb" data-f="Vencido">Vencido</button>
+          <button class="fb" data-f="Perdido">Perdido</button>
+        </div>
+      </div>
+      <div id="orc-list" class="clist"></div>
+    </div>
+
+    <!-- CONTRATOS -->
+    <div id="tab-contratos" class="tab">
+      <div class="list-toolbar">
+        <div class="search-box"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="search-ct" placeholder="Buscar por nome..."/></div>
+        <div class="filter-bar">
+          <button class="fb active" data-f2="all">Todos</button>
+          <button class="fb" data-f2="Aguardando assinatura">Aguardando assinatura</button>
+          <button class="fb" data-f2="Assinado">Assinado</button>
+          <button class="fb" data-f2="Perdido">Perdido</button>
+        </div>
+      </div>
+      <div id="ct-list" class="clist"></div>
+    </div>
+
+    <!-- FUNIL / KANBAN -->
+    <div id="tab-funil" class="tab">
+      <div id="funil-board" class="kanban"></div>
+    </div>
+
+    <div id="tab-leadfunil" class="tab">
+      <div class="svc-head svc-head-solo">
+        <button id="btn-add-lead" class="btn-p">＋ Adicionar Lead</button>
+      </div>
+      <div id="lead-board" class="kanban"></div>
+    </div>
+
+    <!-- SERVIÇOS -->
+    <div id="tab-servicos" class="tab">
+      <div class="tab-toolbar">
+        <div id="svc-cat-bar" class="cat-bar"></div>
+        <button id="btn-add-svc" class="btn-p tt-action">＋ Cadastrar serviço</button>
+      </div>
+      <div id="svc-catalog" class="svc-catalog"></div>
+    </div>
+
+    <div id="tab-clientes" class="tab">
+      <div class="tab-toolbar">
+        <div class="search-box"><input type="text" id="cli-search" oninput="renderClientes()" placeholder="Buscar por nome, empresa, responsável ou CNPJ/CPF..."/></div>
+        <button id="btn-add-cli" class="btn-p tt-action">＋ Cadastrar cliente</button>
+      </div>
+      <div id="cli-list" class="svc-catalog"></div>
+    </div>
+
+
+    <!-- RELATÓRIOS -->
+    <div id="tab-relatorios" class="tab">
+
+      <div class="rel-row">
+        <!-- CALENDÁRIO -->
+        <div class="card rel-col rel-cal-card">
+          <div class="rel-cal-top"><h3 class="panel-title" style="margin:0">Calendário</h3><input type="month" id="rel-month" class="rel-month"/></div>
+          <div class="rel-cal-nav">
+            <button type="button" id="rel-cal-prev" class="rel-cal-arrow">‹</button>
+            <span id="rel-cal-title" class="rel-cal-title">—</span>
+            <button type="button" id="rel-cal-next" class="rel-cal-arrow">›</button>
+          </div>
+          <div id="rel-cal" class="rel-cal"></div>
+          <div class="rel-cal-legend">
+            <span class="rlg"><i class="rdot has"></i>Dia com registro</span>
+            <span class="rlg"><i class="rdot sel"></i>Selecionado</span>
+            <span class="rlg"><i class="rdot"></i>Sem registro</span>
+          </div>
+        </div>
+
+        <!-- CHECKLIST DIÁRIO -->
+        <div class="card rel-col rel-cl-card">
+          <div class="rel-cl-head">
+            <h3 class="panel-title" style="margin:0">Checklist diário</h3>
+            <label class="rel-date-lbl">Data <input type="date" id="rel-date" class="rel-date"/></label>
+          </div>
+          <div class="rel-cl-body">
+            <div class="rel-nums">
+              <div class="rel-nrow"><label>Leads recebidos</label><input type="number" id="rl-leads" min="0" placeholder="0"/></div>
+              <div class="rel-nrow"><label>Tráfego pago</label><input type="number" id="rl-trafego" min="0" placeholder="0"/></div>
+              <div class="rel-nrow"><label>Indicação</label><input type="number" id="rl-indicacao" min="0" placeholder="0"/></div>
+              <div class="rel-nrow"><label>Prospecção ativa</label><input type="number" id="rl-prospeccao" min="0" placeholder="0"/></div>
+              <div class="rel-nrow"><label>Orgânico / WhatsApp</label><input type="number" id="rl-organico" min="0" placeholder="0"/></div>
+              <div class="rel-nrow"><label>Atendimentos feitos</label><input type="number" id="rl-atend" min="0" placeholder="0"/></div>
+              <div class="rel-nrow"><label>Reuniões realizadas</label><input type="number" id="rl-reun-real" min="0" placeholder="0"/></div>
+              <div class="rel-nrow"><label>Reuniões agendadas</label><input type="number" id="rl-reun-agen" min="0" placeholder="0"/></div>
+              <div class="rel-nrow"><label>Propostas enviadas</label><input type="number" id="rl-propostas" min="0" placeholder="0"/></div>
+              <div class="rel-nrow"><label>Follow-ups feitos</label><input type="number" id="rl-followups" min="0" placeholder="0"/></div>
+              <div class="rel-nrow"><label>Pedidos / contratos fechados</label><input type="number" id="rl-fechados" min="0" placeholder="0"/></div>
+              <div class="rel-nrow rel-nrow-val"><label>Valor fechado no dia</label><div class="rel-money"><span>R$</span><input type="text" id="rl-valor" inputmode="numeric" placeholder="0,00"/></div></div>
+            </div>
+            <div class="rel-txts">
+              <div class="field"><label>Principais objeções</label><textarea id="rl-objecoes" placeholder="Preço, prazo de entrega..."></textarea></div>
+              <div class="field"><label>Leads quentes para amanhã</label><textarea id="rl-quentes" placeholder="Empresa X — interessada no plano anual..."></textarea></div>
+              <div class="field"><label>Observações importantes</label><textarea id="rl-obs" placeholder="Anotações do dia..."></textarea></div>
+            </div>
+          </div>
+          <div class="rel-cl-actions">
+            <button id="btn-rel-clear" class="btn-g">Cancelar</button>
+            <button id="btn-rel-save" class="btn-p">💾 Salvar</button>
+          </div>
+        </div>
+
+        <!-- META DO MÊS -->
+        <div class="card rel-col rel-meta-card">
+          <h3 class="panel-title">Meta do mês</h3>
+          <div class="rel-meta-ico">◎</div>
+          <div class="rel-meta-block">
+            <span class="rel-m-lbl">Meta do mês</span>
+            <div class="rel-meta-edit"><span>R$</span><input type="number" id="rel-meta" min="0" step="100" placeholder="0"/></div>
+            <button id="btn-rel-meta-save" class="btn-s rel-meta-btn">Salvar meta</button>
+          </div>
+          <div class="rel-meta-block">
+            <span class="rel-m-lbl">Vendido até o momento</span>
+            <strong id="rel-vendido" class="rel-m-big rel-ok">R$ 0</strong>
+            <span id="rel-vendido-sub" class="rel-m-sub"></span>
+          </div>
+          <div class="rel-meta-block">
+            <span class="rel-m-lbl">Falta</span>
+            <strong id="rel-falta" class="rel-m-big rel-falta">—</strong>
+            <span id="rel-falta-sub" class="rel-m-sub"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card rel-consol">
+        <div class="rel-consol-head">
+          <h3 class="panel-title" style="margin:0">Resumo Consolidado <span id="rel-consol-month" class="rel-consol-month"></span></h3>
+          <div class="rel-period">
+            <label>De <input type="date" id="rel-from" class="rel-date"/></label>
+            <label>Até <input type="date" id="rel-to" class="rel-date"/></label>
+            <button type="button" id="btn-rel-period-month" class="btn-g rel-period-btn">Mês todo</button>
+          </div>
+        </div>
+        <div id="rel-consol-table" class="rel-table-wrap"></div>
+      </div>
+    </div>
+
+    <!-- NOVO ORÇAMENTO -->
+    <div id="tab-novo-orcamento" class="tab">
+      <div class="steps-nav">
+        <button class="sn active" data-s="o1"><span class="snum">1</span> Dados do Cliente</button>
+        <button class="sn" data-s="o2"><span class="snum">2</span> Serviços</button>
+        <button class="sn" data-s="o3"><span class="snum">3</span> Resumo & PDF</button>
+      </div>
+      <div id="so1" class="step active">
+        <div class="card">
+          <h2 class="ctitle">Dados do Cliente</h2>
+          <div class="fgrid">
+            <div class="field"><label>CPF / CNPJ</label><input type="text" id="o-doc" placeholder="000.000.000-00 ou 00.000.000/0001-00" maxlength="18" inputmode="numeric"/></div>
+            <div class="field"><label>Nome / Empresa *</label><input type="text" id="o-name" placeholder="Ex: João Silva ou Empresa Ltda" autocomplete="off" list="o-cli-list"/><datalist id="o-cli-list"></datalist></div>
+            <div class="field"><label>WhatsApp</label><input type="tel" id="o-wpp" placeholder="(41) 99999-9999" maxlength="15" inputmode="tel"/></div>
+            <div class="field"><label>E-mail</label><input type="email" id="o-email" placeholder="email@empresa.com" autocomplete="email"/></div>
+            <div class="field"><label>Validade da proposta (dias)</label><input type="number" id="o-validity" value="15" min="1" max="90" inputmode="numeric"/></div>
+            <div class="field"><label>Origem do cliente *</label><select id="o-origem"></select></div>
+            <div class="field"><label>Responsável interno *</label><select id="o-resp"></select></div>
+            <div class="field full"><label>Observações internas</label><textarea id="o-obs" placeholder="Anotações internas sobre o cliente e contexto da negociação..."></textarea></div>
+          </div>
+          <div class="step-actions"><button id="btn-o1-next" class="btn-p">Próximo: Serviços →</button></div>
+        </div>
+      </div>
+      <div id="so2" class="step">
+        <div class="card services-layout">
+          <div class="services-left">
+            <h2 class="ctitle">Selecionar Serviços</h2>
+            <div id="o-cat-bar" class="cat-bar"></div>
+            <div id="o-catalog" class="pcatalog"></div>
+          </div>
+          <div class="services-right">
+            <h3 class="panel-title">Selecionados</h3>
+            <div id="o-sel-list" class="sel-plans"><p class="empty-sel">Nenhum serviço selecionado.</p></div>
+            <div class="mini-tot">
+              <div class="mrow"><span>Total Mensal</span><strong id="o-mini-m">R$ 0,00</strong></div>
+              <div class="mrow"><span>Total Pontual</span><strong id="o-mini-p">R$ 0,00</strong></div>
+            </div>
+            <div class="step-actions">
+              <button id="btn-o2-back" class="btn-g">← Voltar</button>
+              <button id="btn-o2-next" class="btn-p">Próximo: Resumo →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="so3" class="step">
+        <div class="card">
+          <h2 class="ctitle">Resumo do Orçamento</h2>
+          <div class="summary-layout">
+            <div>
+              <div id="o-sum-client" class="sum-client-card"></div>
+              <div id="o-sum-svcs" class="sum-services"></div>
+            </div>
+            <div class="financial-panel">
+              <h3 class="panel-title">Financeiro</h3>
+              <div class="fin-row"><label>Total Mensal</label><span id="o-fin-m">R$ 0,00</span></div>
+              <div class="fin-row"><label>Total Pontual</label><span id="o-fin-p">R$ 0,00</span></div>
+              <div class="fin-row"><label>Desconto</label>
+                <div class="disc-control">
+                  <div class="disc-toggle" id="o-disc-toggle"><button type="button" class="dt-btn active" data-mode="pct">%</button><button type="button" class="dt-btn" data-mode="brl">R$</button></div>
+                  <input type="number" id="o-disc" value="0" min="0" step="0.01" inputmode="decimal" placeholder="% (máx. 10%)"/>
+                </div>
+              </div>
+              <div class="fin-row"><label>Desconto aplicado</label><span id="o-disc-val">R$ 0,00</span></div>
+              <div class="fin-row total"><label>Valor Final</label><span id="o-fin-total">R$ 0,00</span></div>
+              <hr class="divider"/>
+              <div class="fin-row"><label>Prazo do contrato</label>
+                <select id="o-dur"><option value="1">Spot</option><option value="6" selected>Semestral (6 meses)</option><option value="12">Anual (12 meses)</option></select>
+              </div>
+              <div class="fin-row"><label>Condição de pagamento</label>
+                <select id="o-pay"><option>Mensal - todo dia 05</option><option>Mensal - todo dia 10</option><option>Mensal - todo dia 15</option><option>Mensal - todo dia 20</option><option>Mensal - todo dia 25</option><option>À vista no ato da assinatura</option></select>
+              </div>
+              <div class="fin-row"><label>Observações comerciais</label><textarea id="o-fin-obs" placeholder="Condições especiais, descontos em combo..."></textarea></div>
+              <div class="step-actions col">
+                <button id="btn-o3-back" class="btn-g">← Voltar</button>
+                <button id="btn-o-pdf" class="btn-s">📄 Exportar Proposta PDF</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOVO CONTRATO -->
+    <div id="tab-novo-contrato" class="tab">
+      <div class="steps-nav">
+        <button class="sn active" data-s="c1"><span class="snum">1</span> Planos & Valores</button>
+        <button class="sn" data-s="c2"><span class="snum">2</span> Condições</button>
+        <button class="sn" data-s="c3"><span class="snum">3</span> Revisar & Gerar Link</button>
+      </div>
+      <div id="sc1" class="step active">
+        <div class="card">
+          <h2 class="ctitle">Dados do Cliente e Planos</h2>
+          <div class="fgrid">
+            <div class="field"><label>Nome / Empresa *</label><input type="text" id="c-name" placeholder="Nome ou empresa do cliente"/></div>
+            <div class="field"><label>WhatsApp</label><input type="tel" id="c-wpp-s" placeholder="(41) 99999-9999" maxlength="15" inputmode="tel"/></div>
+            <div class="field"><label>E-mail</label><input type="email" id="c-email-s" placeholder="email@empresa.com"/></div>
+            <div class="field"><label>Obs. internas</label><input type="text" id="c-obs-s" placeholder="Anotações internas..."/></div>
+            <div class="field"><label>Responsável interno *</label><select id="c-resp"></select></div>
+          </div>
+          <h2 class="ctitle mt">Planos Contratados</h2>
+          <p class="hint-txt">Selecione os planos que o cliente vai contratar e ajuste os valores se necessário.</p>
+          <div id="c-cat-bar" class="cat-bar"></div>
+          <div id="c-catalog" class="pcatalog"></div>
+          <div class="sel-panel">
+            <h3 class="panel-title">Planos Selecionados</h3>
+            <div id="c-sel-list" class="sel-plans"><p class="empty-sel">Nenhum plano selecionado.</p></div>
+            <div class="mini-tot">
+              <div class="mrow"><span>Total Mensal</span><strong id="c-mini-m">R$ 0,00</strong></div>
+              <div class="mrow"><span>Total Pontual</span><strong id="c-mini-p">R$ 0,00</strong></div>
+            </div>
+          </div>
+          <div class="step-actions"><button id="btn-c1-next" class="btn-p">Próximo: Condições →</button></div>
+        </div>
+      </div>
+      <div id="sc2" class="step">
+        <div class="card">
+          <h2 class="ctitle">Condições do Contrato</h2>
+          <div class="fgrid">
+            <div class="field"><label>Valor mensal final (R$)</label><input type="number" id="c-final-m" placeholder="0,00" step="0.01" inputmode="decimal"/></div>
+            <div class="field"><label>Valor pontual final (R$)</label><input type="number" id="c-final-p" placeholder="0,00" step="0.01" inputmode="decimal"/></div>
+            <div class="field"><label>Obs. sobre valor (combo, desconto)</label><input type="text" id="c-disc-obs" placeholder="Ex: desconto combo - de R$ 1.290 por R$ 1.190"/></div>
+            <div class="field"><label>Desconto</label>
+              <div class="disc-control">
+                <div class="disc-toggle" id="c-disc-toggle"><button type="button" class="dt-btn active" data-mode="pct">%</button><button type="button" class="dt-btn" data-mode="brl">R$</button></div>
+                <input type="number" id="c-disc" value="0" min="0" step="0.01" inputmode="decimal" placeholder="% (máx. 10%)"/>
+              </div>
+            </div>
+            <div class="field"><label>Duração do contrato</label>
+              <select id="c-dur"><option value="1">Spot</option><option value="6" selected>Semestral (6 meses)</option><option value="12">Anual (12 meses)</option></select>
+            </div>
+            <div class="field"><label>Vencimento mensal</label>
+              <select id="c-due"><option value="05">Mensal - todo dia 05</option><option value="10">Mensal - todo dia 10</option><option value="15">Mensal - todo dia 15</option><option value="20">Mensal - todo dia 20</option><option value="25">Mensal - todo dia 25</option><option value="ato">No ato da assinatura</option></select>
+            </div>
+            <div class="field full"><label>Formas de pagamento</label>
+              <div class="pm-dropdown" id="c-pm-dd">
+                <button type="button" class="pm-trigger"><span class="pm-trigger-text">Selecione...</span><svg class="pm-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+                <div class="pm-panel" id="c-paymethods">
+                  <label class="pm-opt"><input type="checkbox" value="PIX" checked/> <span>PIX</span></label>
+                  <label class="pm-opt"><input type="checkbox" value="Boleto bancário"/> <span>Boleto bancário</span></label>
+                  <label class="pm-opt"><input type="checkbox" value="Cartão de crédito"/> <span>Cartão de crédito</span></label>
+                  <label class="pm-opt"><input type="checkbox" value="Cartão de débito"/> <span>Cartão de débito</span></label>
+                  <label class="pm-opt"><input type="checkbox" value="Dinheiro"/> <span>Dinheiro</span></label>
+                </div>
+              </div>
+            </div>
+            <div class="field full"><label>Observações no contrato</label><textarea id="c-ct-obs" placeholder="Condições especiais que devem aparecer no contrato..."></textarea></div>
+          </div>
+          <div class="financial-panel" style="margin-top:6px">
+            <div class="fin-row"><label>Desconto (R$)</label><span id="c-disc-val">R$ 0,00</span></div>
+            <div class="fin-row total"><label>Total com desconto</label><span id="c-total">R$ 0,00</span></div>
+          </div>
+          <div class="step-actions">
+            <button id="btn-c2-back" class="btn-g">← Voltar</button>
+            <button id="btn-c2-next" class="btn-p">Próximo: Revisar →</button>
+          </div>
+        </div>
+      </div>
+      <div id="sc3" class="step">
+        <div class="card">
+          <h2 class="ctitle">Revisar e Gerar Link</h2>
+          <div id="c-review" class="review-box"></div>
+          <div class="step-actions">
+            <button id="btn-c3-back" class="btn-g">← Voltar</button>
+            <button id="btn-gen-link" class="btn-p">🔗 Gerar Link para o Cliente</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- DIAGNÓSTICO -->
+    <div id="tab-diagnostico" class="tab">
+      <div class="steps-nav">
+        <button class="sn active" data-s="d1"><span class="snum">1</span> Cliente</button>
+        <button class="sn" data-s="d2"><span class="snum">2</span> Diagnóstico</button>
+      </div>
+
+      <div id="sd1" class="step active">
+        <div class="card">
+          <h2 class="ctitle">Cliente</h2>
+          <div class="fgrid">
+            <div class="field"><label>Empresa</label><input type="text" id="dg-empresa" placeholder="Nome da empresa"/></div>
+            <div class="field"><label>Segmento / Ramo</label><input type="text" id="dg-segmento" placeholder="Ex: Clínica odontológica"/></div>
+            <div class="field"><label>Responsável / Contato</label><input type="text" id="dg-contato" placeholder="Ex: João Silva"/></div>
+            <div class="field"><label>WhatsApp</label><input type="text" id="dg-wpp" placeholder="(41) 99999-9999"/></div>
+            <div class="field"><label>Instagram</label><input type="text" id="dg-insta" placeholder="@perfil"/></div>
+            <div class="field"><label>Site</label><input type="text" id="dg-site" placeholder="site.com.br"/></div>
+            <div class="field"><label>Origem do cliente</label><select id="dg-origem"></select></div>
+            <div class="field"><label>Responsável interno</label><select id="dg-resp"></select></div>
+          </div>
+          <div class="step-actions"><button id="btn-d1-next" class="btn-p">Próximo: Diagnóstico →</button></div>
+        </div>
+      </div>
+
+      <div id="sd2" class="step">
+        <div class="card">
+          <h2 class="ctitle">Diagnóstico Estratégico</h2>
+          <p class="hint-txt" style="margin-top:-6px">Preencha o que for relevante — campos em branco não aparecem no PDF. Cada linha vira um item no dossiê.</p>
+
+          <div class="dg-sub">Diagnóstico-resumo <span>· aparece logo na frente do PDF</span></div>
+          <div class="dg2-grid">
+            <div class="field"><label>Principais problemas</label><textarea id="dg-rz-problemas" class="dg-ta" placeholder="Um por linha..."></textarea></div>
+            <div class="field"><label>Prioridades</label><textarea id="dg-rz-prioridades" class="dg-ta" placeholder="Um por linha..."></textarea></div>
+            <div class="field"><label>Base da análise</label><textarea id="dg-rz-base" class="dg-ta" placeholder="Em que dados/observações se baseia..."></textarea></div>
+            <div class="field"><label>Objetivo geral do dossiê</label><textarea id="dg-rz-objetivo" class="dg-ta" placeholder="O que este diagnóstico busca..."></textarea></div>
+          </div>
+
+          <div class="dg-sub">Google e busca local</div>
+          <div class="dg2-grid">
+            <div class="field"><label>Palavras-chave pesquisadas</label><textarea id="dg-g-palavras" class="dg-ta" placeholder="Uma por linha..."></textarea></div>
+            <div class="field"><label>Tráfego pago no Google (Google Ads)</label><textarea id="dg-g-ads" class="dg-ta"></textarea></div>
+            <div class="field"><label>Ranqueamento orgânico e SEO local</label><textarea id="dg-g-seo" class="dg-ta"></textarea></div>
+            <div class="field"><label>Google Empresas (Google Meu Negócio)</label><textarea id="dg-g-gmn" class="dg-ta"></textarea></div>
+            <div class="field full"><label>Potencial de busca local</label><textarea id="dg-g-potencial" class="dg-ta"></textarea></div>
+          </div>
+
+          <div class="dg-sub">Site, anúncios Meta e concorrentes</div>
+          <div class="dg2-grid">
+            <div class="field"><label>Site / Landing page</label><textarea id="dg-s-site" class="dg-ta"></textarea></div>
+            <div class="field"><label>Anúncios Meta e redes (resumo)</label><textarea id="dg-s-meta" class="dg-ta"></textarea></div>
+            <div class="field full"><label>Concorrentes</label><textarea id="dg-s-concorrentes" class="dg-ta"></textarea></div>
+          </div>
+
+          <div class="dg-sub">Oportunidades e fechamento</div>
+          <div class="dg2-grid">
+            <div class="field"><label>Oportunidades identificadas</label><textarea id="dg-o-oportunidades" class="dg-ta"></textarea></div>
+            <div class="field"><label>Próximos passos sugeridos</label><textarea id="dg-o-passos" class="dg-ta"></textarea></div>
+          </div>
+
+          <div class="dg-sub">Rodapé do PDF</div>
+          <div class="dg2-grid">
+            <div class="field"><label>Seu contato</label><textarea id="dg-f-contato" class="dg-ta" placeholder="Nome, WhatsApp, e-mail..."></textarea></div>
+            <div class="field"><label>Chamada para ação (CTA final)</label><textarea id="dg-f-cta" class="dg-ta" placeholder="Ex: Vamos tornar sua demanda previsível."></textarea></div>
+          </div>
+
+          <div class="diag-actions-bar">
+            <button id="btn-d2-back" class="btn-g">← Voltar</button>
+            <span class="dab-spacer"></span>
+            <button id="btn-dg-del" class="btn-g hidden">🗑 Excluir</button>
+            <button id="btn-dg-new" class="btn-g">＋ Novo</button>
+            <button id="btn-dg-toorc" class="btn-s">➡️ Transformar em Orçamento</button>
+            <button id="btn-dg-pdf" class="btn-p">📄 Gerar PDF</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ÁREA DO CLIENTE -->
+<div id="screen-client" class="screen">
+  <header class="cl-hdr">
+    <div class="brand"><span class="bt">Colodel</span></div>
+    <div class="cl-steps">
+      <div class="cs active" id="cs1">1</div><div class="csline"></div>
+      <div class="cs" id="cs2">2</div><div class="csline"></div>
+      <div class="cs" id="cs3">3</div><div class="csline"></div>
+      <div class="cs" id="cs4">4</div>
+    </div>
+  </header>
+  <div class="cl-body">
+    <div id="csp1" class="csp active">
+      <div class="cl-card">
+        <div class="cl-card-hd"><div class="cl-card-icon">📋</div><h2>Dados para o Contrato</h2><p>Preencha as informações da empresa contratante</p></div>
+        <div class="form-section-label">DADOS DA EMPRESA</div>
+        <div class="fgrid">
+          <div class="field full"><label>CNPJ/CPF *</label><input type="text" id="f-cnpj" placeholder="CNPJ ou CPF" maxlength="18" inputmode="numeric"/></div>
+          <div class="field full"><label>Nome / Empresa *</label><input type="text" id="f-fantasia" placeholder="Ex: Colodel Ltda"/></div>
+          <div class="field full"><label>E-mail *</label><input type="email" id="f-email" placeholder="contato@empresa.com" autocomplete="email"/></div>
+        </div>
+        <div class="form-section-label">ENDEREÇO</div>
+        <div class="fgrid">
+          <div class="field"><label>CEP *</label><input type="text" id="f-cep" placeholder="00.000-000" maxlength="10" inputmode="numeric"/></div>
+          <div class="field"><label>Município/UF *</label><input type="text" id="f-cidade" placeholder="Ex: Curiitba/PR"/></div>
+          <div class="field full"><label>Endereço (Rua e Número) *</label><input type="text" id="f-rua" placeholder="Ex: Rodovia PR 000, nº 0000" autocomplete="street-address"/></div>
+          <div class="field"><label>Bairro *</label><input type="text" id="f-bairro" placeholder="Ex: Centro"/></div>
+          <div class="field"><label>Complemento</label><input type="text" id="f-comp" placeholder="Ex: Apartamento 001"/></div>
+        </div>
+        <div class="form-section-label">RESPONSÁVEL LEGAL</div>
+        <div class="fgrid">
+          <div class="field"><label>Nome Completo *</label><input type="text" id="f-resp" placeholder="Ex: João Silva" autocomplete="name"/></div>
+          <div class="field"><label>CPF <span class="opt-tag">(opcional)</span></label><input type="text" id="f-cpf" placeholder="000.000.000-00" maxlength="14" inputmode="numeric"/></div>
+          <div class="field"><label>WhatsApp *</label><input type="tel" id="f-wpp" placeholder="(41) 99999-9999" maxlength="15" inputmode="tel"/></div>
+        </div>
+        <div id="f-err" class="msg-err hidden">Preencha todos os campos obrigatórios.</div>
+        <div class="cl-actions"><button id="btn-f-next" class="btn-p">Continuar →</button></div>
+      </div>
+    </div>
+    <div id="csp2" class="csp">
+      <div class="cl-card contract-card">
+        <div class="cl-card-hd"><h2>Contrato de Prestação de Serviços</h2><p>Leia com atenção antes de assinar</p></div>
+        <div id="contract-view" class="contract-view"></div>
+        <div class="cl-actions">
+          <button id="btn-cv-back" class="btn-g">← Voltar</button>
+          <button id="btn-cv-next" class="btn-p">Li e aceito os termos - Assinar →</button>
+        </div>
+      </div>
+    </div>
+    <div id="csp3" class="csp">
+      <div class="cl-card">
+        <div class="cl-card-hd"><h2>Assinatura Digital</h2><p>Sua assinatura é feita com validade jurídica pela Autentique</p></div>
+        <div class="autentique-box">
+          <div class="autentique-ico">🖊️</div>
+          <p class="autentique-txt">Ao clicar abaixo, o contrato será enviado para a plataforma de assinatura digital, onde você assina com validade jurídica. Você receberá o documento assinado por e-mail.</p>
+        </div>
+        <button id="btn-sig-autentique" class="btn-p w100">Assinar via Autentique →</button>
+        <div class="cl-actions">
+          <button id="btn-sig-back" class="btn-g">← Voltar</button>
+        </div>
+      </div>
+    </div>
+    <div id="csp4" class="csp">
+      <div class="cl-card success-card">
+        <div class="success-ico">✓</div>
+        <h2>Contrato assinado com sucesso!</h2>
+        <p>A equipe da <strong>Colodel</strong> recebeu suas informações e entrará em contato em breve.</p>
+        <div id="success-info" class="success-info"></div>
+        <button id="btn-dl-pdf" class="btn-p w100">⬇ Baixar Contrato Assinado (PDF)</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL LINK -->
+<div id="modal-link" class="modal hidden">
+  <div class="mbox">
+    <h3>🔗 Link do Cliente Gerado!</h3>
+    <p>Envie este link para o cliente preencher os dados e assinar o contrato.</p>
+    <div class="link-row"><input type="text" id="modal-link-val" readonly/><button id="btn-copy" class="btn-p">Copiar</button></div>
+    <div class="modal-ok">✅ Status atualizado: Aguardando assinatura</div>
+    <button id="btn-modal-close" class="btn-g w100 mt10">Fechar</button>
+  </div>
+</div>
+
+<!-- MODAL SERVIÇO (cadastrar / editar) -->
+<div id="modal-svc" class="modal hidden">
+  <div class="mbox">
+    <h3 id="svc-modal-title">Cadastrar novo serviço</h3>
+    <div class="field"><label>Nome do serviço</label><input type="text" id="svc-f-name" placeholder="Ex: Gestão de TikTok"/></div>
+    <div class="field"><label>Categoria</label><input type="text" id="svc-f-cat" list="svc-cats-list" placeholder="Ex: Gestão de Redes Sociais"/><datalist id="svc-cats-list"></datalist></div>
+    <div class="field"><label>Descrição curta</label><textarea id="svc-f-desc" placeholder="Uma frase explicando o serviço." style="min-height:60px"></textarea></div>
+    <div class="field"><label>O que inclui (um item por linha)</label><textarea id="svc-f-inc" placeholder="1 publicação semanal&#10;Edição profissional&#10;Relatório mensal" style="min-height:90px"></textarea></div>
+    <div class="svc-form-row">
+      <div class="field"><label>Preço (R$)</label><input type="number" id="svc-f-price" min="0" step="0.01" inputmode="decimal" placeholder="1599"/></div>
+      <div class="field"><label>Cobrança</label><select id="svc-f-bill"><option value="mensal">Mensal</option><option value="pontual">Pontual</option></select></div>
+    </div>
+    <input type="hidden" id="svc-f-id"/>
+    <div id="svc-f-err" class="msg-err hidden"></div>
+    <div class="modal-acts">
+      <button id="btn-svc-cancel" class="btn-g">Cancelar</button>
+      <button id="btn-svc-save" class="btn-p">💾 Salvar serviço</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CLIENTE (cadastrar / editar) -->
+<div id="modal-cli" class="modal hidden">
+  <div class="mbox">
+    <h3 id="cli-modal-title">Cadastrar cliente</h3>
+    <div class="field"><label>Nome / Empresa *</label><input type="text" id="cli-f-name" placeholder="Ex: Empresa Ltda ou João Silva"/></div>
+    <div class="svc-form-row">
+      <div class="field"><label>CNPJ / CPF</label><input type="text" id="cli-f-doc" placeholder="00.000.000/0001-00" maxlength="18" inputmode="numeric"/></div>
+      <div class="field"><label>WhatsApp</label><input type="tel" id="cli-f-wpp" placeholder="(41) 99999-9999" maxlength="15" inputmode="tel"/></div>
+    </div>
+    <div class="field"><label>E-mail</label><input type="email" id="cli-f-email" placeholder="contato@empresa.com"/></div>
+    <div class="svc-form-row">
+      <div class="field"><label>Responsável (nome)</label><input type="text" id="cli-f-resp" placeholder="Ex: João Silva"/></div>
+      <div class="field"><label>CPF do responsável</label><input type="text" id="cli-f-cpf" placeholder="000.000.000-00" maxlength="14" inputmode="numeric"/></div>
+    </div>
+    <div class="svc-form-row">
+      <div class="field"><label>CEP</label><input type="text" id="cli-f-cep" placeholder="00.000-000" maxlength="10" inputmode="numeric"/></div>
+      <div class="field"><label>Município / UF</label><input type="text" id="cli-f-cidade" placeholder="Ex: Curitiba/PR"/></div>
+    </div>
+    <div class="field"><label>Endereço (rua e número)</label><input type="text" id="cli-f-rua" placeholder="Ex: Rua das Flores, nº 100"/></div>
+    <div class="svc-form-row">
+      <div class="field"><label>Bairro</label><input type="text" id="cli-f-bairro" placeholder="Ex: Centro"/></div>
+      <div class="field"><label>Complemento</label><input type="text" id="cli-f-comp" placeholder="Ex: Sala 2"/></div>
+    </div>
+    <div class="field"><label>Observações</label><textarea id="cli-f-obs" placeholder="Anotações sobre o cliente..." style="min-height:55px"></textarea></div>
+    <input type="hidden" id="cli-f-id"/>
+    <div id="cli-f-err" class="msg-err hidden"></div>
+    <div class="modal-acts">
+      <button id="btn-cli-cancel" class="btn-g">Cancelar</button>
+      <button id="btn-cli-save" class="btn-p">💾 Salvar cliente</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL LEAD (funil comercial) -->
+<div id="modal-lead" class="modal hidden">
+  <div class="mbox">
+    <h3 id="lead-modal-title">Adicionar Lead</h3>
+    <div class="field"><label>Nome do contato *</label><input type="text" id="lead-f-name" placeholder="Ex: Maria Souza"/></div>
+    <div class="svc-form-row">
+      <div class="field"><label>Empresa</label><input type="text" id="lead-f-empresa" placeholder="Ex: Loja da Maria"/></div>
+      <div class="field"><label>WhatsApp</label><input type="tel" id="lead-f-wpp" placeholder="(41) 99999-9999" maxlength="15" inputmode="tel"/></div>
+    </div>
+    <div class="field"><label>E-mail</label><input type="email" id="lead-f-email" placeholder="contato@empresa.com"/></div>
+    <div class="svc-form-row">
+      <div class="field"><label>Valor da oportunidade (R$)</label><input type="number" id="lead-f-valor" min="0" step="0.01" inputmode="decimal" placeholder="0,00"/></div>
+      <div class="field"><label>Temperatura</label><select id="lead-f-temp"><option value="Fria">Fria</option><option value="Morna">Morna</option><option value="Quente">Quente</option></select></div>
+    </div>
+    <div class="svc-form-row">
+      <div class="field"><label>Origem</label><select id="lead-f-origem"></select></div>
+      <div class="field"><label>Etapa</label><select id="lead-f-stage"></select></div>
+    </div>
+    <div class="field"><label>Observações</label><textarea id="lead-f-obs" placeholder="Anotações sobre a negociação..." style="min-height:55px"></textarea></div>
+    <input type="hidden" id="lead-f-id"/>
+    <div id="lead-f-err" class="msg-err hidden"></div>
+    <div class="modal-acts">
+      <button id="btn-lead-del" class="btn-g">🗑 Excluir</button>
+      <button id="btn-lead-cancel" class="btn-g">Cancelar</button>
+      <button id="btn-lead-save" class="btn-p">💾 Salvar lead</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ORÇAMENTO -->
+<div id="modal-orc" class="modal hidden">
+  <div class="mbox wide">
+    <h3 id="mo-title"></h3>
+    <div class="modal-tabs">
+      <button class="mtab active" data-mt="mo-info">Detalhes</button>
+      <button class="mtab" data-mt="mo-status">Status</button>
+      <button class="mtab" data-mt="mo-hist">Histórico</button>
+      <button class="mtab" data-mt="mo-notes">Observações</button>
+    </div>
+    <div id="mo-info" class="mtab-content active"></div>
+    <div id="mo-status" class="mtab-content">
+      <div class="status-control">
+        <label>Alterar Status do Orçamento</label>
+        <div class="status-btns">
+          <button class="sbtn sbtn-eval" data-ostatus="Proposta em avaliação">📋 Proposta em avaliação</button>
+          <button class="sbtn sbtn-approved" data-ostatus="Aprovado">✅ Aprovado</button>
+          <button class="sbtn sbtn-lost" data-ostatus="Perdido">❌ Perdido</button>
+        </div>
+      </div>
+      <p style="color:var(--g2);font-size:0.82rem">Clique no status desejado para atualizar este orçamento. O status <strong>Vencido</strong> é automático (quando passa a validade) e aparece no filtro.</p>
+    </div>
+    <div id="mo-hist" class="mtab-content"></div>
+    <div id="mo-notes" class="mtab-content">
+      <div class="field"><label>Observações internas</label><textarea id="mo-notes-txt" placeholder="Anotações internas sobre este orçamento..." style="min-height:100px"></textarea></div>
+      <button id="btn-mo-save-notes" class="btn-p" style="margin-top:8px">💾 Salvar observação</button>
+    </div>
+    <div class="modal-acts">
+      <button id="btn-mo-close" class="btn-g">Fechar</button>
+      <button id="btn-mo-dup" class="btn-s">📋 Duplicar</button>
+      <button id="btn-mo-edit" class="btn-s">✏️ Editar</button>
+      <button id="btn-mo-pdf" class="btn-s">📄 PDF Proposta</button>
+      <button id="btn-mo-to-ct" class="btn-convert" style="display:none">🔀 Transformar em Contrato</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONTRATO -->
+<div id="modal-ct" class="modal hidden">
+  <div class="mbox wide">
+    <h3 id="mc-title"></h3>
+    <div class="modal-tabs">
+      <button class="mtab active" data-mt="mc-info">Detalhes</button>
+      <button class="mtab" data-mt="mc-status">Status</button>
+      <button class="mtab" data-mt="mc-hist">Histórico</button>
+      <button class="mtab" data-mt="mc-notes">Observações</button>
+    </div>
+    <div id="mc-info" class="mtab-content active"></div>
+    <div id="mc-status" class="mtab-content">
+      <div class="status-control">
+        <label>Alterar Status do Contrato</label>
+        <div class="status-btns">
+          <button class="sbtn sbtn-waiting" data-ctstatus="Aguardando assinatura">⏳ Aguardando assinatura</button>
+          <button class="sbtn sbtn-signed" data-ctstatus="Assinado">✅ Assinado</button>
+          <button class="sbtn sbtn-lost" data-ctstatus="Perdido">❌ Perdido</button>
+        </div>
+      </div>
+      <p style="color:var(--g2);font-size:0.82rem">Clique no status desejado para atualizar este contrato manualmente.</p>
+    </div>
+    <div id="mc-hist" class="mtab-content"></div>
+    <div id="mc-notes" class="mtab-content">
+      <div class="field"><label>Observações internas</label><textarea id="mc-notes-txt" placeholder="Anotações internas sobre este contrato..." style="min-height:100px"></textarea></div>
+      <button id="btn-mc-save-notes" class="btn-p" style="margin-top:8px">💾 Salvar observação</button>
+    </div>
+    <div class="modal-acts">
+      <button id="btn-mc-close" class="btn-g">Fechar</button>
+      <button id="btn-mc-dup" class="btn-s">📋 Duplicar</button>
+      <button id="btn-mc-edit" class="btn-s">✏️ Editar</button>
+      <button id="btn-mc-pdf" class="btn-s">⬇ Baixar Contrato (PDF)</button>
+      <button id="btn-mc-signed" class="btn-s">✅ Baixar Assinado</button>
+      <button id="btn-mc-link" class="btn-p">🔗 Reenviar Link</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDITAR ORÇAMENTO -->
+<div id="modal-edit-orc" class="modal hidden">
+  <div class="mbox wide">
+    <h3>✏️ Editar Orçamento</h3>
+    <div class="fgrid">
+      <div class="field"><label>Nome / Empresa</label><input type="text" id="eo-name"/></div>
+      <div class="field"><label>CPF / CNPJ</label><input type="text" id="eo-doc" placeholder="000.000.000-00 ou 00.000.000/0001-00" maxlength="18" inputmode="numeric"/></div>
+      <div class="field"><label>WhatsApp</label><input type="tel" id="eo-wpp" placeholder="(41) 99999-9999" maxlength="15"/></div>
+      <div class="field"><label>E-mail</label><input type="email" id="eo-email"/></div>
+      <div class="field"><label>Validade (dias)</label><input type="number" id="eo-validity" min="1" max="90" inputmode="numeric"/></div>
+      <div class="field"><label>Origem do cliente</label><select id="eo-origem"></select></div>
+      <div class="field"><label>Responsável interno</label><select id="eo-resp"></select></div>
+      <div class="field"><label>Desconto</label>
+        <div class="disc-control">
+          <div class="disc-toggle" id="eo-disc-toggle"><button type="button" class="dt-btn active" data-mode="pct">%</button><button type="button" class="dt-btn" data-mode="brl">R$</button></div>
+          <input type="number" id="eo-disc" min="0" step="0.01" inputmode="decimal" placeholder="% (máx. 10%)"/>
+        </div>
+      </div>
+      <div class="field"><label>Prazo</label><select id="eo-dur"><option value="1">Spot</option><option value="6">Semestral (6 meses)</option><option value="12">Anual (12 meses)</option></select></div>
+      <div class="field"><label>Pagamento</label><select id="eo-pay"><option>Mensal - todo dia 05</option><option>Mensal - todo dia 10</option><option>Mensal - todo dia 15</option><option>Mensal - todo dia 20</option><option>Mensal - todo dia 25</option><option>À vista no ato da assinatura</option></select></div>
+      <div class="field full"><label>Observações internas</label><textarea id="eo-obs"></textarea></div>
+      <div class="field full"><label>Observações comerciais</label><textarea id="eo-fin-obs"></textarea></div>
+    </div>
+    <div class="edit-svc-block">
+      <h4 class="edit-svc-title">🛠 Serviços do orçamento</h4>
+      <p class="hint-txt">Clique em um serviço do catálogo para adicionar/remover. Ajuste os valores na lista ao lado.</p>
+      <div class="services-layout edit-svc-layout">
+        <div class="services-left">
+          <div id="eo-cat-bar" class="cat-bar"></div>
+          <div id="eo-catalog" class="pcatalog"></div>
+        </div>
+        <div class="services-right">
+          <h3 class="panel-title">Selecionados</h3>
+          <div id="eo-sel-list" class="sel-plans"><p class="empty-sel">Nenhum serviço selecionado.</p></div>
+          <div class="mini-tot">
+            <div class="mrow"><span>Total Mensal</span><strong id="eo-mini-m">R$ 0,00</strong></div>
+            <div class="mrow"><span>Total Pontual</span><strong id="eo-mini-p">R$ 0,00</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-acts">
+      <button id="btn-eo-cancel" class="btn-g">Cancelar</button>
+      <button id="btn-eo-delete" class="btn-del">🗑 Excluir Orçamento</button>
+      <button id="btn-eo-save" class="btn-p">💾 Salvar Alterações</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDITAR CONTRATO -->
+<div id="modal-edit-ct" class="modal hidden">
+  <div class="mbox wide">
+    <h3>✏️ Editar Contrato</h3>
+    <div class="fgrid">
+      <div class="field"><label>Nome / Empresa</label><input type="text" id="ec-name"/></div>
+      <div class="field"><label>WhatsApp</label><input type="tel" id="ec-wpp" placeholder="(41) 99999-9999" maxlength="15"/></div>
+      <div class="field"><label>E-mail</label><input type="email" id="ec-email"/></div>
+      <div class="field"><label>Valor Mensal Final (R$)</label><input type="number" id="ec-final-m" step="0.01" inputmode="decimal"/></div>
+      <div class="field"><label>Valor Pontual Final (R$)</label><input type="number" id="ec-final-p" step="0.01" inputmode="decimal"/></div>
+      <div class="field"><label>Obs. sobre valor</label><input type="text" id="ec-disc-obs"/></div>
+      <div class="field"><label>Responsável interno</label><select id="ec-resp"></select></div>
+      <div class="field"><label>Duração</label><select id="ec-dur"><option value="1">Spot</option><option value="6">Semestral (6 meses)</option><option value="12">Anual (12 meses)</option></select></div>
+      <div class="field"><label>Vencimento</label><select id="ec-due"><option value="05">Mensal - todo dia 05</option><option value="10">Mensal - todo dia 10</option><option value="15">Mensal - todo dia 15</option><option value="20">Mensal - todo dia 20</option><option value="25">Mensal - todo dia 25</option><option value="ato">No ato da assinatura</option></select></div>
+      <div class="field full"><label>Formas de pagamento</label>
+        <div class="pm-dropdown" id="ec-pm-dd">
+          <button type="button" class="pm-trigger"><span class="pm-trigger-text">Selecione...</span><svg class="pm-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="pm-panel" id="ec-paymethods">
+            <label class="pm-opt"><input type="checkbox" value="PIX"/> <span>PIX</span></label>
+            <label class="pm-opt"><input type="checkbox" value="Boleto bancário"/> <span>Boleto bancário</span></label>
+            <label class="pm-opt"><input type="checkbox" value="Cartão de crédito"/> <span>Cartão de crédito</span></label>
+            <label class="pm-opt"><input type="checkbox" value="Cartão de débito"/> <span>Cartão de débito</span></label>
+            <label class="pm-opt"><input type="checkbox" value="Dinheiro"/> <span>Dinheiro</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="field full"><label>Observações no contrato</label><textarea id="ec-ct-obs"></textarea></div>
+    </div>
+    <div class="modal-acts">
+      <button id="btn-ec-cancel" class="btn-g">Cancelar</button>
+      <button id="btn-ec-delete" class="btn-del">🗑 Excluir Contrato</button>
+      <button id="btn-ec-save" class="btn-p">💾 Salvar Alterações</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL MOTIVO DE PERDA -->
+<div id="modal-loss" class="modal hidden">
+  <div class="mbox">
+    <h3>❌ Motivo da Perda</h3>
+    <p>Registre por que este item foi perdido. Isso gera dados para melhorar as próximas propostas.</p>
+    <div class="field"><label>Motivo *</label><select id="loss-reason"></select></div>
+    <div class="field"><label>Detalhes (opcional)</label><textarea id="loss-obs" placeholder="Ex: fechou com agência X por R$ 200 a menos..." style="min-height:80px"></textarea></div>
+    <div class="modal-acts">
+      <button id="btn-loss-cancel" class="btn-g">Cancelar</button>
+      <button id="btn-loss-confirm" class="btn-del">Confirmar perda</button>
+    </div>
+  </div>
+</div>
+
+<script src="db.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="index.js"></script>
+</body>
+</html>
