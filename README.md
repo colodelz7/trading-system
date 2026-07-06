@@ -34,10 +34,8 @@ Sistema interno de gestão comercial com módulos de orçamentos, contratos, cli
 Basta abrir o `index.html` no navegador ou servir a pasta com qualquer servidor estático:
 
 ```bash
-npx serve frontend
+npx serve .
 ```
-
-Acesse `http://localhost:3000`.
 
 **Login padrão:** `admin` / `colodel`
 
@@ -46,7 +44,6 @@ Acesse `http://localhost:3000`.
 Só é necessário se for usar assinatura digital via Autentique, recebimento de leads pelo formulário público, envio de notificações por e-mail e WhatsApp, ou recebimento de webhooks de assinatura.
 
 ```bash
-cd backend
 npm install
 cp .env.example .env
 npm start
