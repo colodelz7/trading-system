@@ -885,3 +885,30 @@ body.light .kcol-empty{border-color:rgba(20,40,80,0.12)}
 /* Relatórios: seletor de mês dentro do card Calendário */
 .rel-cal-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:14px}
 .rel-cal-card .rel-month{font-size:0.74rem;padding:6px 8px}
+
+/* Diagnóstico: anexos por campo (mini "Anexar" embaixo de cada campo) */
+.dg-fa{margin-top:6px}
+.dg-fa-add{background:transparent;border:1px dashed var(--g3);color:var(--g2);font-family:var(--fp);font-size:0.72rem;font-weight:600;padding:4px 10px;border-radius:var(--rs);cursor:pointer;transition:border-color var(--tr),color var(--tr)}
+.dg-fa-add:hover{border-color:var(--c);color:var(--c)}
+.dg-fa-status{font-size:0.7rem;color:var(--g2);margin-left:8px}
+.dg-fa-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.dg-fa-item{position:relative;display:inline-flex;align-items:center}
+.dg-fa-thumb{width:74px;height:74px;object-fit:cover;border-radius:var(--rs);border:1px solid var(--cb);background:var(--d3);display:block;cursor:pointer}
+.dg-fa-thumb-link{display:block;line-height:0}
+.dg-fa-chip{display:inline-flex;align-items:center;gap:7px;max-width:230px;padding:7px 11px;background:var(--cdim);border:1px solid var(--cb);border-radius:var(--rs);color:var(--g1);font-size:0.76rem;text-decoration:none;transition:border-color var(--tr),color var(--tr)}
+.dg-fa-chip:hover{border-color:var(--c);color:var(--w)}
+.dg-fa-nm{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.dg-fa-del{position:absolute;top:-7px;right:-7px;width:19px;height:19px;line-height:17px;text-align:center;border-radius:50%;border:none;background:var(--err);color:var(--w);font-size:0.7rem;cursor:pointer;padding:0}
+.dg-fa-del:hover{filter:brightness(1.15)}
+
+
+.ov-date-group{display:flex;align-items:center;gap:8px;margin-left:6px;padding-left:12px;border-left:1px solid var(--cb);flex-wrap:wrap}
+.ov-date-lbl{font-size:0.74rem;color:var(--g2);display:flex;align-items:center;gap:6px}
+.ov-date-group.active .ov-date-lbl{color:var(--c)}
+.ov-date-clear{background:var(--card);border:1px solid var(--cb);color:var(--g2);border-radius:var(--rs);font-family:var(--fp);font-size:0.78rem;line-height:1;padding:7px 10px;cursor:pointer;transition:all var(--tr)}
+.ov-date-clear:hover{color:var(--w);border-color:var(--g2)}
+.rel-presets{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.rel-preset-btn{width:auto;min-height:0;padding:6px 11px;font-size:0.72rem}
+.rel-export-btn{width:auto;min-height:0;padding:7px 15px;font-size:0.74rem;font-weight:700}
+/* Destaque da supermeta no card de metas */
+.rel-m-lbl-super{color:var(--c)}

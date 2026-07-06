@@ -16,6 +16,7 @@ const DB = (function () {
   const KEY_SESSION = PREFIX + 'session';
   const KEY_ORC     = PREFIX + 'orcamentos';
   const KEY_CT      = PREFIX + 'contratos';
+  const KEY_SPOT    = PREFIX + 'spots';
   const KEY_SV      = PREFIX + 'servicos';
   const KEY_CL      = PREFIX + 'clientes';
   const KEY_LD      = PREFIX + 'leads';
@@ -133,6 +134,21 @@ const DB = (function () {
   }
 
   /* ============================================================
+     SPOTS — serviços pontuais únicos
+  ============================================================ */
+  function getSpots() { return lsGet(KEY_SPOT) || []; }
+  function saveSpots(list) { return lsSet(KEY_SPOT, list || []); }
+  function saveSpot(item) {
+    const list = getSpots();
+    const idx  = list.findIndex(x => x.id === item.id);
+    if (idx >= 0) list[idx] = item; else list.push(item);
+    return lsSet(KEY_SPOT, list);
+  }
+  function deleteSpot(id) {
+    return lsSet(KEY_SPOT, getSpots().filter(x => x.id !== id));
+  }
+
+  /* ============================================================
      SERVIÇOS CUSTOMIZADOS
   ============================================================ */
   function getServicos() { return lsGet(KEY_SV) || []; }
@@ -203,17 +219,75 @@ const DB = (function () {
   }
 
   /* ============================================================
+     ANEXOS (localStorage, base64) — arquivos dos diagnósticos
+     Versão OFFLINE: o arquivo é gravado como Data URL (base64) no
+     próprio localStorage, sob a chave colodel_anexo_<path>. Dentro
+     do diagnóstico guardamos só os metadados (nome, path, tipo,
+     tamanho). Limite ~5MB por arquivo (localStorage é pequeno).
+  ============================================================ */
+  const KEY_ANEXO_PREFIX = PREFIX + 'anexo_';
+  const ANEXO_MAX_BYTES  = 5 * 1024 * 1024; // ~5MB por arquivo
+
+  function _fileToDataUrl(file) {
+    return new Promise(function (res, rej) {
+      const fr = new FileReader();
+      fr.onload  = function () { res(fr.result); };
+      fr.onerror = function () { rej(fr.error || new Error('Falha ao ler o arquivo.')); };
+      fr.readAsDataURL(file);
+    });
+  }
+
+  // Grava um arquivo localmente e devolve os metadados p/ salvar no diagnóstico.
+  async function uploadAnexo(diagId, file) {
+    if (file && file.size > ANEXO_MAX_BYTES) {
+      throw new Error('Arquivo acima do limite de 5MB (modo offline).');
+    }
+    const nomeLimpo = (file.name || 'arquivo').replace(/[^\w.\-]+/g, '_');
+    const path = (diagId || 'sem-id') + '/' + Date.now() + '-' + nomeLimpo;
+    const dataUrl = await _fileToDataUrl(file);
+    try {
+      localStorage.setItem(KEY_ANEXO_PREFIX + path, dataUrl);
+    } catch (e) {
+      throw new Error('Sem espaço no armazenamento local (localStorage cheio). Tente um arquivo menor.');
+    }
+    return {
+      nome: file.name || 'arquivo',
+      path: path,
+      tipo: file.type || '',
+      tamanho: file.size || 0,
+      criadoEm: new Date().toISOString(),
+    };
+  }
+
+  // Devolve o Data URL do anexo (o browser abre/baixa direto).
+  // O 2º parâmetro (expiresIn) existe só por compatibilidade e é ignorado aqui.
+  async function getAnexoUrl(path, _expiresIn) {
+    if (!path) return null;
+    try { return localStorage.getItem(KEY_ANEXO_PREFIX + path) || null; }
+    catch (e) { return null; }
+  }
+
+  // Remove o arquivo do armazenamento local.
+  async function deleteAnexo(path) {
+    if (!path) return false;
+    try { localStorage.removeItem(KEY_ANEXO_PREFIX + path); return true; }
+    catch (e) { return false; }
+  }
+
+  /* ============================================================
      API PÚBLICA
   ============================================================ */
   return {
     login, logout, isAuthenticated, init, initClient,
     getOrcamentos, saveOrcamentos, saveOrcamento, deleteOrcamento,
     getContratos, saveContratos, saveContrato, deleteContrato, getContratoPorLink,
+    getSpots, saveSpots, saveSpot, deleteSpot,
     getServicos, saveServico, deleteServico,
     getClientes, saveCliente, deleteCliente,
     getLeads, saveLead, deleteLead,
     getDiagnosticos, saveDiagnostico, deleteDiagnostico,
     getRelatorios, saveRelatorio, deleteRelatorio,
+    uploadAnexo, getAnexoUrl, deleteAnexo,
     _sha256: sha256, // utilitário: DB._sha256('senha').then(console.log)
   };
 })();

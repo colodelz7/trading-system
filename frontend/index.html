@@ -34,6 +34,7 @@
       <button class="nb active" data-tab="overview"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>Visão Geral</span></button>
       <button class="nb" data-tab="orcamentos"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg><span>Orçamentos</span></button>
       <button class="nb" data-tab="contratos"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span>Contratos</span></button>
+      <button class="nb" data-tab="spots"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>SPOT</span></button>
       <button class="nb" data-tab="diagnostico"><svg viewBox="0 0 24 24"><path d="M9 11H5a2 2 0 0 0-2 2v7"/><path d="M9 3v18"/><circle cx="15" cy="8" r="3"/><path d="M21 20a6 6 0 0 0-12 0"/></svg><span>Diagnóstico</span></button>
       <button class="nb" data-tab="funil"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="9.5" y="4" width="5" height="10" rx="1"/><rect x="16" y="4" width="5" height="13" rx="1"/></svg><span>Funil</span></button>
       <button class="nb" data-tab="leadfunil"><svg viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg><span>Funil de Leads</span></button>
@@ -55,7 +56,7 @@
 
     <!-- OVERVIEW -->
     <div id="tab-overview" class="tab active">
-      <div class="ov-period-bar"><span class="ov-period-lbl">Período</span><button class="ovp active" data-ovp="all">Tudo</button><button class="ovp" data-ovp="1">Este mês</button><button class="ovp" data-ovp="3">3 meses</button><button class="ovp" data-ovp="6">6 meses</button><button class="ovp" data-ovp="12">12 meses</button></div>
+      <div class="ov-period-bar"><span class="ov-period-lbl">Período</span><button class="ovp active" data-ovp="all">Tudo</button><button class="ovp" data-ovp="1">Este mês</button><button class="ovp" data-ovp="3">3 meses</button><button class="ovp" data-ovp="6">6 meses</button><button class="ovp" data-ovp="12">12 meses</button><span class="ov-date-group"><label class="ov-date-lbl">De <input type="date" id="ov-from" class="rel-date"/></label><label class="ov-date-lbl">Até <input type="date" id="ov-to" class="rel-date"/></label><button class="ov-date-clear" id="ov-date-clear" type="button" title="Limpar intervalo">✕</button></span></div>
       <div class="kpi-grid">
         <div class="kpi"><div class="kpi-ic cyan"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div><p class="kpi-lbl">Total Orçamentos</p><p class="kpi-val" id="kpi-orc">0</p></div></div>
         <div class="kpi"><div class="kpi-ic yellow"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div><p class="kpi-lbl">Orçamentos em Avaliação</p><p class="kpi-val" id="kpi-eval">0</p></div></div>
@@ -67,6 +68,8 @@
         <div class="kpi"><div class="kpi-ic green"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div><p class="kpi-lbl">Contratos Assinados</p><p class="kpi-val" id="kpi-signed">0</p></div></div>
         <div class="kpi"><div class="kpi-ic red"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div><div><p class="kpi-lbl">Contratos Perdidos</p><p class="kpi-val" id="kpi-lost-ct">0</p></div></div>
         <div class="kpi"><div class="kpi-ic violet"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><div><p class="kpi-lbl">Taxa de Conversão</p><p class="kpi-val" id="kpi-conv">0%</p></div></div>
+        <div class="kpi"><div class="kpi-ic violet"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div><p class="kpi-lbl">Total Spots</p><p class="kpi-val" id="kpi-spot-total">0</p></div></div>
+        <div class="kpi"><div class="kpi-ic green"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div><p class="kpi-lbl">Spots Aprovados</p><p class="kpi-val" id="kpi-spot-approved">0</p></div></div>
         <div class="kpi"><div class="kpi-ic cyan"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div><p class="kpi-lbl">Receita Mensal Prevista</p><p class="kpi-val" id="kpi-mrr">R$ 0,00</p></div></div>
         <div class="kpi"><div class="kpi-ic cyan"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div><div><p class="kpi-lbl">Receita Pontual Prevista</p><p class="kpi-val" id="kpi-arr">R$ 0,00</p></div></div>
       </div>
@@ -105,6 +108,21 @@
         </div>
       </div>
       <div id="ct-list" class="clist"></div>
+    </div>
+
+    <!-- SPOTS -->
+    <div id="tab-spots" class="tab">
+      <div class="tab-toolbar">
+        <div class="search-box"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" id="search-spot" placeholder="Buscar por nome ou nº (ex: 0150)..."/></div>
+        <button id="btn-add-spot" class="btn-p tt-action">＋ Novo SPOT</button>
+      </div>
+      <div class="filter-bar">
+        <button class="fb active" data-fs="all">Todos</button>
+        <button class="fb" data-fs="Em avaliação">Em avaliação</button>
+        <button class="fb" data-fs="Aprovado">Aprovado</button>
+        <button class="fb" data-fs="Perdido">Perdido</button>
+      </div>
+      <div id="spot-list" class="clist"></div>
     </div>
 
     <!-- FUNIL / KANBAN -->
@@ -190,24 +208,33 @@
           </div>
         </div>
 
-        <!-- META DO MÊS -->
+        <!-- META & SUPERMETA -->
         <div class="card rel-col rel-meta-card">
-          <h3 class="panel-title">Meta do mês</h3>
+          <h3 class="panel-title">Meta &amp; Supermeta</h3>
           <div class="rel-meta-ico">◎</div>
           <div class="rel-meta-block">
             <span class="rel-m-lbl">Meta do mês</span>
             <div class="rel-meta-edit"><span>R$</span><input type="number" id="rel-meta" min="0" step="100" placeholder="0"/></div>
-            <button id="btn-rel-meta-save" class="btn-s rel-meta-btn">Salvar meta</button>
           </div>
           <div class="rel-meta-block">
-            <span class="rel-m-lbl">Vendido até o momento</span>
+            <span class="rel-m-lbl rel-m-lbl-super">★ Supermeta do mês</span>
+            <div class="rel-meta-edit"><span>R$</span><input type="number" id="rel-supermeta" min="0" step="100" placeholder="0"/></div>
+            <button id="btn-rel-meta-save" class="btn-s rel-meta-btn">Salvar metas</button>
+          </div>
+          <div class="rel-meta-block">
+            <span class="rel-m-lbl">Vendido no período</span>
             <strong id="rel-vendido" class="rel-m-big rel-ok">R$ 0</strong>
             <span id="rel-vendido-sub" class="rel-m-sub"></span>
           </div>
           <div class="rel-meta-block">
-            <span class="rel-m-lbl">Falta</span>
+            <span class="rel-m-lbl">Falta p/ meta</span>
             <strong id="rel-falta" class="rel-m-big rel-falta">—</strong>
             <span id="rel-falta-sub" class="rel-m-sub"></span>
+          </div>
+          <div class="rel-meta-block">
+            <span class="rel-m-lbl">Falta p/ supermeta</span>
+            <strong id="rel-falta-super" class="rel-m-big rel-falta">—</strong>
+            <span id="rel-falta-super-sub" class="rel-m-sub"></span>
           </div>
         </div>
       </div>
@@ -218,7 +245,13 @@
           <div class="rel-period">
             <label>De <input type="date" id="rel-from" class="rel-date"/></label>
             <label>Até <input type="date" id="rel-to" class="rel-date"/></label>
-            <button type="button" id="btn-rel-period-month" class="btn-g rel-period-btn">Mês todo</button>
+            <div class="rel-presets">
+              <button type="button" data-preset="7" class="btn-g rel-preset-btn">7 dias</button>
+              <button type="button" data-preset="15" class="btn-g rel-preset-btn">15 dias</button>
+              <button type="button" data-preset="30" class="btn-g rel-preset-btn">30 dias</button>
+              <button type="button" id="btn-rel-period-month" class="btn-g rel-period-btn">Mês todo</button>
+            </div>
+            <button type="button" id="btn-rel-export" class="btn-p rel-export-btn">⬇ Exportar PDF</button>
           </div>
         </div>
         <div id="rel-consol-table" class="rel-table-wrap"></div>
@@ -300,6 +333,91 @@
               <div class="step-actions col">
                 <button id="btn-o3-back" class="btn-g">← Voltar</button>
                 <button id="btn-o-pdf" class="btn-s">📄 Exportar Proposta PDF</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOVO SPOT -->
+    <div id="tab-novo-spot" class="tab">
+      <div class="steps-nav">
+        <button class="sn active" data-s="sp1"><span class="snum">1</span> Dados do Cliente</button>
+        <button class="sn" data-s="sp2"><span class="snum">2</span> Serviços</button>
+        <button class="sn" data-s="sp3"><span class="snum">3</span> Resumo & PDF</button>
+      </div>
+      <div id="ssp1" class="step active">
+        <div class="card">
+          <h2 class="ctitle">Dados do Cliente</h2>
+          <div class="fgrid">
+            <div class="field"><label>CPF / CNPJ</label><input type="text" id="sp-doc" placeholder="000.000.000-00 ou 00.000.000/0001-00" maxlength="18" inputmode="numeric"/></div>
+            <div class="field"><label>Nome / Empresa *</label><input type="text" id="sp-name" placeholder="Ex: João Silva ou Empresa Ltda" autocomplete="off" list="sp-cli-list"/><datalist id="sp-cli-list"></datalist></div>
+            <div class="field"><label>WhatsApp</label><input type="tel" id="sp-wpp" placeholder="(41) 99999-9999" maxlength="15" inputmode="tel"/></div>
+            <div class="field"><label>E-mail</label><input type="email" id="sp-email" placeholder="email@empresa.com" autocomplete="email"/></div>
+            <div class="field"><label>Validade da proposta (dias)</label><input type="number" id="sp-validity" value="15" min="1" max="90" inputmode="numeric"/></div>
+            <div class="field"><label>Origem do cliente *</label><select id="sp-origem"></select></div>
+            <div class="field"><label>Responsável interno *</label><select id="sp-resp"></select></div>
+            <div class="field full"><label>Formas de pagamento</label>
+              <div class="pm-dropdown" id="sp-pm-dd">
+                <button type="button" class="pm-trigger"><span class="pm-trigger-text">Selecione...</span><svg class="pm-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+                <div class="pm-panel" id="sp-paymethods">
+                  <label class="pm-opt"><input type="checkbox" value="PIX" checked/> <span>PIX</span></label>
+                  <label class="pm-opt"><input type="checkbox" value="Boleto bancário"/> <span>Boleto bancário</span></label>
+                  <label class="pm-opt"><input type="checkbox" value="Cartão de crédito"/> <span>Cartão de crédito</span></label>
+                  <label class="pm-opt"><input type="checkbox" value="Cartão de débito"/> <span>Cartão de débito</span></label>
+                  <label class="pm-opt"><input type="checkbox" value="Dinheiro"/> <span>Dinheiro</span></label>
+                </div>
+              </div>
+            </div>
+            <div class="field full"><label>Observações comerciais</label><textarea id="sp-fin-obs" placeholder="Condições de pagamento, parcelamento, prazo de entrega, informações extras..."></textarea></div>
+            <div class="field full"><label>Observações internas</label><textarea id="sp-obs" placeholder="Anotações internas sobre o cliente e contexto da negociação..."></textarea></div>
+          </div>
+          <div class="step-actions"><button id="btn-sp1-next" class="btn-p">Próximo: Serviços →</button></div>
+        </div>
+      </div>
+      <div id="ssp2" class="step">
+        <div class="card services-layout">
+          <div class="services-left">
+            <h2 class="ctitle">Selecionar Serviços</h2>
+            <div id="sp-cat-bar" class="cat-bar"></div>
+            <div id="sp-catalog" class="pcatalog"></div>
+          </div>
+          <div class="services-right">
+            <h3 class="panel-title">Selecionados</h3>
+            <div id="sp-sel-list" class="sel-plans"><p class="empty-sel">Nenhum serviço selecionado.</p></div>
+            <div class="mini-tot">
+              <div class="mrow"><span>Total do SPOT (pontual)</span><strong id="sp-mini-p">R$ 0,00</strong></div>
+            </div>
+            <div class="step-actions">
+              <button id="btn-sp2-back" class="btn-g">← Voltar</button>
+              <button id="btn-sp2-next" class="btn-p">Próximo: Resumo →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="ssp3" class="step">
+        <div class="card">
+          <h2 class="ctitle">Resumo do SPOT</h2>
+          <div class="summary-layout">
+            <div>
+              <div id="sp-sum-client" class="sum-client-card"></div>
+              <div id="sp-sum-svcs" class="sum-services"></div>
+            </div>
+            <div class="financial-panel">
+              <h3 class="panel-title">Financeiro</h3>
+              <div class="fin-row"><label>Total Pontual</label><span id="sp-fin-p">R$ 0,00</span></div>
+              <div class="fin-row"><label>Desconto</label>
+                <div class="disc-control">
+                  <div class="disc-toggle" id="sp-disc-toggle"><button type="button" class="dt-btn active" data-mode="pct">%</button><button type="button" class="dt-btn" data-mode="brl">R$</button></div>
+                  <input type="text" id="sp-disc" value="0" inputmode="decimal" autocomplete="off" placeholder="% (máx. 10%)"/>
+                </div>
+              </div>
+              <div class="fin-row"><label>Desconto aplicado</label><span id="sp-disc-val">R$ 0,00</span></div>
+              <div class="fin-row total"><label>Valor Final</label><span id="sp-fin-total">R$ 0,00</span></div>
+              <div class="step-actions col">
+                <button id="btn-sp3-back" class="btn-g">← Voltar</button>
+                <button id="btn-sp-pdf" class="btn-s">📄 Exportar SPOT PDF</button>
               </div>
             </div>
           </div>
@@ -681,6 +799,42 @@
   </div>
 </div>
 
+<!-- MODAL SPOT -->
+<div id="modal-spot" class="modal hidden">
+  <div class="mbox wide">
+    <h3 id="ms-title"></h3>
+    <div class="modal-tabs">
+      <button class="mtab active" data-mt="ms-info">Detalhes</button>
+      <button class="mtab" data-mt="ms-status">Status</button>
+      <button class="mtab" data-mt="ms-hist">Histórico</button>
+      <button class="mtab" data-mt="ms-notes">Observações</button>
+    </div>
+    <div id="ms-info" class="mtab-content active"></div>
+    <div id="ms-status" class="mtab-content">
+      <div class="status-control">
+        <label>Alterar Status do SPOT</label>
+        <div class="status-btns">
+          <button class="sbtn sbtn-eval" data-sstatus="Em avaliação">📋 Em avaliação</button>
+          <button class="sbtn sbtn-approved" data-sstatus="Aprovado">✅ Aprovado</button>
+          <button class="sbtn sbtn-lost" data-sstatus="Perdido">❌ Perdido</button>
+        </div>
+      </div>
+      <p style="color:var(--g2);font-size:0.82rem">Ao marcar como <strong>Aprovado</strong>, o valor do SPOT é somado automaticamente à <strong>Receita Pontual Prevista</strong> na Visão Geral.</p>
+    </div>
+    <div id="ms-hist" class="mtab-content"></div>
+    <div id="ms-notes" class="mtab-content">
+      <div class="field"><label>Observações internas</label><textarea id="ms-notes-txt" placeholder="Anotações internas sobre este SPOT..." style="min-height:100px"></textarea></div>
+      <button id="btn-ms-save-notes" class="btn-p" style="margin-top:8px">💾 Salvar observação</button>
+    </div>
+    <div class="modal-acts">
+      <button id="btn-ms-close" class="btn-g">Fechar</button>
+      <button id="btn-ms-dup" class="btn-s">📋 Duplicar</button>
+      <button id="btn-ms-edit" class="btn-s">✏️ Editar</button>
+      <button id="btn-ms-pdf" class="btn-s">📄 PDF SPOT</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL CONTRATO -->
 <div id="modal-ct" class="modal hidden">
   <div class="mbox wide">
@@ -800,6 +954,64 @@
       <button id="btn-ec-cancel" class="btn-g">Cancelar</button>
       <button id="btn-ec-delete" class="btn-del">🗑 Excluir Contrato</button>
       <button id="btn-ec-save" class="btn-p">💾 Salvar Alterações</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDITAR SPOT -->
+<div id="modal-edit-spot" class="modal hidden">
+  <div class="mbox wide">
+    <h3>✏️ Editar SPOT</h3>
+    <div class="fgrid">
+      <div class="field"><label>Nome / Empresa</label><input type="text" id="es-name"/></div>
+      <div class="field"><label>CPF / CNPJ</label><input type="text" id="es-doc" placeholder="000.000.000-00 ou 00.000.000/0001-00" maxlength="18" inputmode="numeric"/></div>
+      <div class="field"><label>WhatsApp</label><input type="tel" id="es-wpp" placeholder="(41) 99999-9999" maxlength="15"/></div>
+      <div class="field"><label>E-mail</label><input type="email" id="es-email"/></div>
+      <div class="field"><label>Validade (dias)</label><input type="number" id="es-validity" min="1" max="90" inputmode="numeric"/></div>
+      <div class="field"><label>Origem do cliente</label><select id="es-origem"></select></div>
+      <div class="field"><label>Responsável interno</label><select id="es-resp"></select></div>
+      <div class="field"><label>Desconto</label>
+        <div class="disc-control">
+          <div class="disc-toggle" id="es-disc-toggle"><button type="button" class="dt-btn active" data-mode="pct">%</button><button type="button" class="dt-btn" data-mode="brl">R$</button></div>
+          <input type="text" id="es-disc" inputmode="decimal" autocomplete="off" placeholder="% (máx. 10%)"/>
+        </div>
+      </div>
+      <div class="field full"><label>Formas de pagamento</label>
+        <div class="pm-dropdown" id="es-pm-dd">
+          <button type="button" class="pm-trigger"><span class="pm-trigger-text">Selecione...</span><svg class="pm-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <div class="pm-panel" id="es-paymethods">
+            <label class="pm-opt"><input type="checkbox" value="PIX"/> <span>PIX</span></label>
+            <label class="pm-opt"><input type="checkbox" value="Boleto bancário"/> <span>Boleto bancário</span></label>
+            <label class="pm-opt"><input type="checkbox" value="Cartão de crédito"/> <span>Cartão de crédito</span></label>
+            <label class="pm-opt"><input type="checkbox" value="Cartão de débito"/> <span>Cartão de débito</span></label>
+            <label class="pm-opt"><input type="checkbox" value="Dinheiro"/> <span>Dinheiro</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="field full"><label>Observações comerciais</label><textarea id="es-fin-obs"></textarea></div>
+      <div class="field full"><label>Observações internas</label><textarea id="es-obs"></textarea></div>
+    </div>
+    <div class="edit-svc-block">
+      <h4 class="edit-svc-title">🛠 Serviços do SPOT</h4>
+      <p class="hint-txt">Clique em um serviço do catálogo para adicionar/remover. Ajuste os valores na lista ao lado.</p>
+      <div class="services-layout edit-svc-layout">
+        <div class="services-left">
+          <div id="es-cat-bar" class="cat-bar"></div>
+          <div id="es-catalog" class="pcatalog"></div>
+        </div>
+        <div class="services-right">
+          <h3 class="panel-title">Selecionados</h3>
+          <div id="es-sel-list" class="sel-plans"><p class="empty-sel">Nenhum serviço selecionado.</p></div>
+          <div class="mini-tot">
+            <div class="mrow"><span>Total do SPOT (pontual)</span><strong id="es-mini-p">R$ 0,00</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-acts">
+      <button id="btn-es-cancel" class="btn-g">Cancelar</button>
+      <button id="btn-es-delete" class="btn-del">🗑 Excluir SPOT</button>
+      <button id="btn-es-save" class="btn-p">💾 Salvar Alterações</button>
     </div>
   </div>
 </div>
