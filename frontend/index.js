@@ -203,14 +203,16 @@ function mDoc(v){
   // CNPJ
   return v.slice(0,2)+'.'+v.slice(2,5)+'.'+v.slice(5,8)+'/'+v.slice(8,12)+(v.length>12?'-'+v.slice(12):'');
 }
-/* ══ CLAMP DESCONTO 0-10% ══ */
-function clampDisc(v){ let d=parseFloat(v)||0; if(d<0)d=0; if(d>10)d=10; return d; }
+/* ══ CLAMP DESCONTO 0-20% ══ */
+function clampDisc(v){ let d=parseFloat(v)||0; if(d<0)d=0; if(d>20)d=20; return d; }
 
 /* ══ DESCONTO: modo % ou R$ (toggle) ══
-   - Internamente o desconto SEMPRE é guardado como % efetivo (0-10),
+   - Internamente o desconto SEMPRE é guardado como % efetivo (0-20),
      pra não quebrar PDF, contrato e conversões já existentes.
-   - O usuário pode digitar em % OU em R$; o teto de 10% é respeitado nos dois modos. */
-const DISC_CAP = 10; // teto de desconto em %
+   - O usuário pode digitar em % OU em R$; o teto de 20% é respeitado nos dois modos.
+   - Acima de 10%, ao sair do campo (blur) pedimos confirmação (ver confirmDiscOver10). */
+const DISC_CAP = 20; // teto de desconto em %
+const DISC_WARN = 10; // acima disso, pede confirmação ao sair do campo
 function discGetMode(toggleId){
   const t=document.getElementById(toggleId); if(!t) return 'pct';
   const a=t.querySelector('.dt-btn.active'); return (a&&a.dataset.mode)||'pct';
@@ -240,9 +242,27 @@ function bindDiscToggle(toggleId,inputId,getBase,onChange){
       discSetMode(toggleId,newMode);
       // converte o valor visível pro novo modo
       if(newMode==='brl'){ var brl=Math.round(base*pct/100*100)/100; inp.value=brl?String(brl).replace('.',','):''; inp.step='0.01'; inp.placeholder='R$ de desconto'; }
-      else { inp.value= pct?String(pct).replace('.',','):'0'; inp.step='0.01'; inp.placeholder='% (máx. 10%)'; }
+      else { inp.value= pct?String(pct).replace('.',','):'0'; inp.step='0.01'; inp.placeholder='% (máx. 20%)'; }
       if(typeof onChange==='function') onChange();
     });
+  });
+}
+
+/* Ao sair do campo (blur), se o desconto efetivo passar de 10%, confirma com o usuário.
+   Se cancelar, o desconto volta para 10% (no modo atual do toggle). */
+function confirmDiscOver10(inputId,toggleId,getBase){
+  var inp=document.getElementById(inputId); if(!inp) return;
+  inp.addEventListener('blur',function(){
+    var mode=discGetMode(toggleId), base=getBase()||0;
+    var pct=discToPct(inp.value,mode,base);
+    if(pct>DISC_WARN){
+      var ok=confirm('O desconto informado é de '+String(pct).replace('.',',')+'%, acima dos 10% recomendados.\n\nConfirmar mesmo assim?');
+      if(!ok){
+        if(mode==='brl'){ var brl=Math.round(base*DISC_WARN/100*100)/100; inp.value=brl?String(brl).replace('.',','):''; }
+        else { inp.value=String(DISC_WARN); }
+        inp.dispatchEvent(new Event('input'));
+      }
+    }
   });
 }
 
@@ -585,6 +605,7 @@ async function doLogin(){
 /* ══ DASHBOARD ══ */
 function bootDash(){
   g('btn-logout').addEventListener('click',async ()=>{ await DB.logout(); showScreen('screen-login'); });
+  const brandHome=g('brand-home-link'); if(brandHome) brandHome.addEventListener('click',(e)=>{ e.preventDefault(); showTab('overview'); });
   { const tb=g('btn-theme'); if(tb) tb.addEventListener('click',toggleTheme); }
   { const ab=g('btn-add-svc'); if(ab) ab.addEventListener('click',()=>openSvcModal(null)); }
   { const sb=g('btn-svc-save'); if(sb) sb.addEventListener('click',saveSvc); }
@@ -656,6 +677,7 @@ function bootDash(){
     const rv=g('rl-valor'); if(rv) rv.addEventListener('input',function(){ this.value=mMoney(this.value); renderRelTotais(); }); }
   g('o-disc').addEventListener('input',recalcOSum);
   bindDiscToggle('o-disc-toggle','o-disc',function(){ const b=calcO(orc.services,0); return b.m+b.p; },recalcOSum);
+  confirmDiscOver10('o-disc','o-disc-toggle',function(){ const b=calcO(orc.services,0); return b.m+b.p; });
 
   // contrato steps
   g('btn-c1-next').addEventListener('click',cStep1Next);
@@ -675,6 +697,7 @@ function bootDash(){
   g('btn-mo-edit').addEventListener('click',()=>openEditOrc(activeOrcId));
   g('btn-mo-save-notes').addEventListener('click',saveOrcNotes);
   g('btn-mo-to-ct').addEventListener('click',()=>orcToContrato(activeOrcId));
+  const btnMoToSpot=g('btn-mo-to-spot'); if(btnMoToSpot) btnMoToSpot.addEventListener('click',()=>orcToSpot(activeOrcId));
 
   // status orçamento
   document.querySelectorAll('.sbtn[data-ostatus]').forEach(b=>b.addEventListener('click',()=>{
@@ -787,7 +810,9 @@ function bootDash(){
   ['c-final-m','c-final-p','c-disc'].forEach(id=>{ const e=g(id); if(e) e.addEventListener('input',recalcCDisc); });
   const cdisc=g('c-disc'); if(cdisc) cdisc.addEventListener('change',recalcCDisc);
   bindDiscToggle('c-disc-toggle','c-disc',function(){ return (parseFloat(g('c-final-m').value)||0)+(parseFloat(g('c-final-p').value)||0); },recalcCDisc);
+  confirmDiscOver10('c-disc','c-disc-toggle',function(){ return (parseFloat(g('c-final-m').value)||0)+(parseFloat(g('c-final-p').value)||0); });
   bindDiscToggle('eo-disc-toggle','eo-disc',function(){ const b=calcO(eoServices,0); return b.m+b.p; },null);
+  confirmDiscOver10('eo-disc','eo-disc-toggle',function(){ const b=calcO(eoServices,0); return b.m+b.p; });
 
   // selects comerciais (origem / responsável / motivo de perda)
   fillCommercialSelects();
@@ -810,6 +835,7 @@ function bootDash(){
     const b5=g('btn-sp-pdf'); if(b5) b5.addEventListener('click',genSpotPDF); }
   { const sd=g('sp-disc'); if(sd) sd.addEventListener('input',recalcSSum); }
   bindDiscToggle('sp-disc-toggle','sp-disc',function(){ const b=calcO(spot?spot.services:[],0); return b.m+b.p; },recalcSSum);
+  confirmDiscOver10('sp-disc','sp-disc-toggle',function(){ const b=calcO(spot?spot.services:[],0); return b.m+b.p; });
   { const sfo=g('sp-fin-obs'); if(sfo) sfo.addEventListener('input',recalcSSum); }
   // modal spot
   { const b=g('btn-ms-close'); if(b) b.addEventListener('click',closeModals);
@@ -836,6 +862,7 @@ function bootDash(){
     const bd=g('btn-es-delete'); if(bd) bd.addEventListener('click',deleteSpotCurrent);
     const bs=g('btn-es-save'); if(bs) bs.addEventListener('click',saveEditSpot); }
   bindDiscToggle('es-disc-toggle','es-disc',function(){ const b=calcO(esServices,0); return b.m+b.p; },null);
+  confirmDiscOver10('es-disc','es-disc-toggle',function(){ const b=calcO(esServices,0); return b.m+b.p; });
   // máscaras spot
   { const sw=g('sp-wpp'); if(sw) sw.addEventListener('input',function(){ this.value=mPhone(this.value); });
     const ew=g('es-wpp'); if(ew) ew.addEventListener('input',function(){ this.value=mPhone(this.value); });
@@ -1132,14 +1159,19 @@ function ovClearCustomDates(){
   const f=g('ov-from'), t=g('ov-to'); if(f) f.value=''; if(t) t.value='';
   const grp=document.querySelector('.ov-date-group'); if(grp) grp.classList.remove('active');
 }
-/* Receita prevista de acordo com o período selecionado no gráfico */
+/* Receita de acordo com o período selecionado no gráfico.
+   - Receita Mensal / Receita Pontual: somente contratos FECHADOS (status "Assinado").
+   - Receita Spot: SPOTs aprovados (valor líquido, já com desconto).
+   - Receita Total: soma de todas, respeitando o filtro de período. */
 function updateRevenueKPIs(){
-  let m=0,p=0;
-  ovFilter(contratos).forEach(c=>{ m+=parseFloat(c.finalM)||0; p+=parseFloat(c.finalP)||0; });
-  // SPOTs aprovados entram 100% na Receita Pontual Prevista
-  ovFilter(spots).forEach(s=>{ if(s.status==='Aprovado') p+=calcO(s.services||[],s.disc||0).net; });
+  let m=0,p=0,spotRev=0;
+  ovFilter(contratos).forEach(c=>{ if(c.status==='Assinado'){ m+=parseFloat(c.finalM)||0; p+=parseFloat(c.finalP)||0; } });
+  ovFilter(spots).forEach(s=>{ if(s.status==='Aprovado') spotRev+=calcO(s.services||[],s.disc||0).net; });
+  const total=m+p+spotRev;
   if(g('kpi-mrr')) g('kpi-mrr').textContent=R(m);
   if(g('kpi-arr')) g('kpi-arr').textContent=R(p);
+  if(g('kpi-spot-rev')) g('kpi-spot-rev').textContent=R(spotRev);
+  if(g('kpi-total-rev')) g('kpi-total-rev').textContent=R(total);
 }
 
 /* ══ GRÁFICO ══ */
@@ -1700,6 +1732,8 @@ function openOrcModal(id){
   // Botão Transformar em Contrato - só quando Aprovado
   const toCt=g('btn-mo-to-ct');
   if(toCt) toCt.style.display=(o.status==='Aprovado')?'':'none';
+  const toSpot=g('btn-mo-to-spot');
+  if(toSpot) toSpot.style.display=(o.status==='Aprovado')?'':'none';
   // Banner de aprovado no topo do mo-info
   if(o.status==='Aprovado'){
     const banner='<div class="banner-aprovado">✅ Orçamento Aprovado - pronto para transformar em contrato!</div>';
@@ -1834,6 +1868,43 @@ function orcToContrato(id){
       if(card) card.prepend(banner);
     }
   },120);
+}
+
+/* ══ TRANSFORMAR ORÇAMENTO EM SPOT ══ */
+function orcToSpot(id){
+  const o=orcamentos.find(x=>x.id===id); if(!o) return;
+  if(o.status!=='Aprovado'){
+    alert('Apenas orçamentos com status "Aprovado" podem ser transformados em SPOT.');
+    return;
+  }
+  if(!confirm('Transformar o orçamento de "'+o.clientName+'" em SPOT?\n\nTodos os serviços serão convertidos para pontual (mantendo o preço) e o cliente e desconto serão copiados automaticamente.')){
+    return;
+  }
+
+  // Converte TODOS os serviços em pontual, mantendo o preço
+  const novoServices=(o.services||[]).map(function(s){ const c=JSON.parse(JSON.stringify(s)); c.bill='pontual'; return c; });
+
+  const novoSpot={
+    id:gid(), seq:null,
+    clientName:o.clientName||'', clientDoc:o.clientDoc||'', clientWpp:o.clientWpp||'', clientEmail:o.clientEmail||'', clientObs:o.obs||'',
+    services:novoServices,
+    disc:o.disc||0, discMode:o.discMode||'pct', discRaw:o.discRaw!=null?o.discRaw:String(o.disc||0),
+    payMethods:['PIX'], obs:o.obs||'', finObs:o.finObs||'',
+    validity:o.validity||15,
+    createdAtRaw:new Date().toISOString(), createdAt:new Date().toLocaleDateString('pt-BR'),
+    status:'Em avaliação',
+    history:[], internalNotes:'',
+    origem:o.origem||'', responsavel:o.responsavel||''
+  };
+  ensureSpotSeq(novoSpot);
+  addHist(novoSpot,'Criado a partir do orçamento aprovado de '+o.clientName,'⚡');
+  addHist(o,'Transformado em SPOT','⚡');
+
+  spots.push(novoSpot); saveS(); spots=DB.getSpots();
+  saveO(); orcamentos=DB.getOrcamentos();
+
+  closeModals();
+  openSpotModal(novoSpot.id);
 }
 
 /* ══ EDITAR ══ */
@@ -2203,7 +2274,7 @@ function recalcOSum(){
   if(mode==='pct'){ const raw=_parseNum(g('o-disc').value); if(raw>DISC_CAP) g('o-disc').value=DISC_CAP; if(raw<0) g('o-disc').value=0; }
   const {m,p,d,net}=calcO(orc.services,disc);
   g('o-fin-m').textContent=R(m); g('o-fin-p').textContent=R(p);
-  g('o-disc-val').textContent=R(d)+(disc>0?'  ('+String(disc).replace('.',',')+'%)':'');
+  g('o-disc-val').textContent = mode==='pct' ? (disc>0?String(disc).replace('.',',')+'%':'0%') : R(d);
   g('o-fin-total').textContent=R(net);
   orc.disc=disc; orc.discMode=mode; orc.discRaw=g('o-disc').value; orc.duration=g('o-dur').value; orc.payment=g('o-pay').value; orc.finObs=g('o-fin-obs').value;
 }
@@ -2411,7 +2482,7 @@ function recalcSSum(){
   if(mode==='pct'){ const raw=_parseNum(g('sp-disc').value); if(raw>DISC_CAP) g('sp-disc').value=DISC_CAP; if(raw<0) g('sp-disc').value=0; }
   const {p,d,net}=calcO(spot.services,disc);
   g('sp-fin-p').textContent=R(p);
-  g('sp-disc-val').textContent=R(d)+(disc>0?'  ('+String(disc).replace('.',',')+'%)':'');
+  g('sp-disc-val').textContent = mode==='pct' ? (disc>0?String(disc).replace('.',',')+'%':'0%') : R(d);
   g('sp-fin-total').textContent=R(net);
   spot.disc=disc; spot.discMode=mode; spot.discRaw=g('sp-disc').value;
   spot.payMethods=getPayMethods('sp-paymethods'); spot.finObs=g('sp-fin-obs').value;
@@ -2607,7 +2678,7 @@ function recalcCDisc(){
   let disc=discToPct(g('c-disc').value,mode,bruto);
   if(mode==='pct'){ const raw=_parseNum(g('c-disc').value); if(raw>DISC_CAP) g('c-disc').value=DISC_CAP; if(raw<0) g('c-disc').value=0; }
   const d=bruto*(disc/100);
-  if(g('c-disc-val')) g('c-disc-val').textContent=R(d)+(disc>0?'  ('+String(disc).replace('.',',')+'%)':'');
+  if(g('c-disc-val')) g('c-disc-val').textContent = mode==='pct' ? (disc>0?String(disc).replace('.',',')+'%':'0%') : R(d);
   if(g('c-total'))    g('c-total').textContent=R(bruto-d);
 }
 function cStep2Next(){

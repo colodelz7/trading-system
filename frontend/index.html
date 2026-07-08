@@ -29,7 +29,7 @@
 <!-- DASHBOARD -->
 <div id="screen-dash" class="screen">
   <aside class="sidebar">
-    <div class="sb-top"><div class="brand"><span class="bt">Colodel</span></div></div>
+    <div class="sb-top"><a href="#" id="brand-home-link" class="brand" style="cursor:pointer;text-decoration:none;"><span class="bt">Colodel</span></a></div>
     <nav id="sidebar-nav">
       <button class="nb active" data-tab="overview"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>Visão Geral</span></button>
       <button class="nb" data-tab="orcamentos"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg><span>Orçamentos</span></button>
@@ -70,8 +70,10 @@
         <div class="kpi"><div class="kpi-ic violet"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><div><p class="kpi-lbl">Taxa de Conversão</p><p class="kpi-val" id="kpi-conv">0%</p></div></div>
         <div class="kpi"><div class="kpi-ic violet"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div><p class="kpi-lbl">Total Spots</p><p class="kpi-val" id="kpi-spot-total">0</p></div></div>
         <div class="kpi"><div class="kpi-ic green"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div><p class="kpi-lbl">Spots Aprovados</p><p class="kpi-val" id="kpi-spot-approved">0</p></div></div>
-        <div class="kpi"><div class="kpi-ic cyan"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div><p class="kpi-lbl">Receita Mensal Prevista</p><p class="kpi-val" id="kpi-mrr">R$ 0,00</p></div></div>
-        <div class="kpi"><div class="kpi-ic cyan"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div><div><p class="kpi-lbl">Receita Pontual Prevista</p><p class="kpi-val" id="kpi-arr">R$ 0,00</p></div></div>
+        <div class="kpi"><div class="kpi-ic cyan"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div><p class="kpi-lbl">Receita Mensal</p><p class="kpi-val" id="kpi-mrr">R$ 0,00</p></div></div>
+        <div class="kpi"><div class="kpi-ic cyan"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div><div><p class="kpi-lbl">Receita Pontual</p><p class="kpi-val" id="kpi-arr">R$ 0,00</p></div></div>
+        <div class="kpi"><div class="kpi-ic violet"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div><p class="kpi-lbl">Receita Spot</p><p class="kpi-val" id="kpi-spot-rev">R$ 0,00</p></div></div>
+        <div class="kpi"><div class="kpi-ic green"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div><p class="kpi-lbl">Receita Total</p><p class="kpi-val" id="kpi-total-rev">R$ 0,00</p></div></div>
       </div>
       <div class="chart-section">
         <div class="chart-header"><span class="sec-title" id="chart-title">Receita - Últimos 6 Meses</span><div class="chart-period-bar"><button class="cpb" data-period="1">Mensal</button><button class="cpb active" data-period="6">6 Meses</button><button class="cpb" data-period="12">12 Meses</button></div></div>
@@ -317,7 +319,7 @@
               <div class="fin-row"><label>Desconto</label>
                 <div class="disc-control">
                   <div class="disc-toggle" id="o-disc-toggle"><button type="button" class="dt-btn active" data-mode="pct">%</button><button type="button" class="dt-btn" data-mode="brl">R$</button></div>
-                  <input type="number" id="o-disc" value="0" min="0" step="0.01" inputmode="decimal" placeholder="% (máx. 10%)"/>
+                  <input type="number" id="o-disc" value="0" min="0" step="0.01" inputmode="decimal" placeholder="% (máx. 20%)"/>
                 </div>
               </div>
               <div class="fin-row"><label>Desconto aplicado</label><span id="o-disc-val">R$ 0,00</span></div>
@@ -410,7 +412,7 @@
               <div class="fin-row"><label>Desconto</label>
                 <div class="disc-control">
                   <div class="disc-toggle" id="sp-disc-toggle"><button type="button" class="dt-btn active" data-mode="pct">%</button><button type="button" class="dt-btn" data-mode="brl">R$</button></div>
-                  <input type="text" id="sp-disc" value="0" inputmode="decimal" autocomplete="off" placeholder="% (máx. 10%)"/>
+                  <input type="text" id="sp-disc" value="0" inputmode="decimal" autocomplete="off" placeholder="% (máx. 20%)"/>
                 </div>
               </div>
               <div class="fin-row"><label>Desconto aplicado</label><span id="sp-disc-val">R$ 0,00</span></div>
@@ -467,7 +469,7 @@
             <div class="field"><label>Desconto</label>
               <div class="disc-control">
                 <div class="disc-toggle" id="c-disc-toggle"><button type="button" class="dt-btn active" data-mode="pct">%</button><button type="button" class="dt-btn" data-mode="brl">R$</button></div>
-                <input type="number" id="c-disc" value="0" min="0" step="0.01" inputmode="decimal" placeholder="% (máx. 10%)"/>
+                <input type="number" id="c-disc" value="0" min="0" step="0.01" inputmode="decimal" placeholder="% (máx. 20%)"/>
               </div>
             </div>
             <div class="field"><label>Duração do contrato</label>
@@ -491,7 +493,7 @@
             <div class="field full"><label>Observações no contrato</label><textarea id="c-ct-obs" placeholder="Condições especiais que devem aparecer no contrato..."></textarea></div>
           </div>
           <div class="financial-panel" style="margin-top:6px">
-            <div class="fin-row"><label>Desconto (R$)</label><span id="c-disc-val">R$ 0,00</span></div>
+            <div class="fin-row"><label>Desconto aplicado</label><span id="c-disc-val">R$ 0,00</span></div>
             <div class="fin-row total"><label>Total com desconto</label><span id="c-total">R$ 0,00</span></div>
           </div>
           <div class="step-actions">
@@ -795,6 +797,7 @@
       <button id="btn-mo-edit" class="btn-s">✏️ Editar</button>
       <button id="btn-mo-pdf" class="btn-s">📄 PDF Proposta</button>
       <button id="btn-mo-to-ct" class="btn-convert" style="display:none">🔀 Transformar em Contrato</button>
+      <button id="btn-mo-to-spot" class="btn-convert" style="display:none">⚡ Transformar em SPOT</button>
     </div>
   </div>
 </div>
@@ -888,7 +891,7 @@
       <div class="field"><label>Desconto</label>
         <div class="disc-control">
           <div class="disc-toggle" id="eo-disc-toggle"><button type="button" class="dt-btn active" data-mode="pct">%</button><button type="button" class="dt-btn" data-mode="brl">R$</button></div>
-          <input type="number" id="eo-disc" min="0" step="0.01" inputmode="decimal" placeholder="% (máx. 10%)"/>
+          <input type="number" id="eo-disc" min="0" step="0.01" inputmode="decimal" placeholder="% (máx. 20%)"/>
         </div>
       </div>
       <div class="field"><label>Prazo</label><select id="eo-dur"><option value="1">Spot</option><option value="6">Semestral (6 meses)</option><option value="12">Anual (12 meses)</option></select></div>
@@ -973,7 +976,7 @@
       <div class="field"><label>Desconto</label>
         <div class="disc-control">
           <div class="disc-toggle" id="es-disc-toggle"><button type="button" class="dt-btn active" data-mode="pct">%</button><button type="button" class="dt-btn" data-mode="brl">R$</button></div>
-          <input type="text" id="es-disc" inputmode="decimal" autocomplete="off" placeholder="% (máx. 10%)"/>
+          <input type="text" id="es-disc" inputmode="decimal" autocomplete="off" placeholder="% (máx. 20%)"/>
         </div>
       </div>
       <div class="field full"><label>Formas de pagamento</label>
